@@ -52,3 +52,16 @@ export const fetchCastDetail = async (id) => {
     const res = await axios.get(`${baseUrl}/person/${id}?api_key=${apiKey}`);
     return res?.data;
 };
+
+// CAST - Movies
+export const fetchCastMovies = async (id, page = 1) => {
+    const res = await axios.get(`${baseUrl}/person/${id}/movie_credits?api_key=${apiKey}&page=${page}`);
+    return res?.data;
+};
+
+
+// CAST - Images
+export const fetchCastImages = async (id) => {
+    const res = await axios.get(`${baseUrl}/person/${id}/images?api_key=${apiKey}`);
+    return res?.data;
+};
