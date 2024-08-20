@@ -18,3 +18,4 @@ export const minutesTohours = (minutes) => {
       return "red.400";
     }
   };
+  

@@ -16,29 +16,42 @@ import {
 import {
   fetchCredits,
   fetchDetails,
-  fetchCastDetail,
+  fetchVideos,
   imagePath,
   imagePathOriginal,
 } from "../services/api";
-import { CalendarIcon, CheckCircleIcon, SmallAddIcon } from "@chakra-ui/icons";
+import { CalendarIcon, CheckCircleIcon, SmallAddIcon, TimeIcon } from "@chakra-ui/icons";
 import { ratingToPercentage, resolveRatingColor } from "../utils/helpers";
+import VideoComponent from "../components/VideoComponent";
 
 const DetailsPage = () => {
   const { type, id } = useParams();
   const navigate = useNavigate();
   const [details, setDetails] = useState({});
   const [cast, setCast] = useState([]);
+  const [video, setVideo] = useState(null);
+  const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [detailsData, creditsData] = await Promise.all([
+        const [detailsData, creditsData, videosData] = await Promise.all([
           fetchDetails(type, id),
           fetchCredits(type, id),
+          fetchVideos(type, id),
+
         ]);
         setDetails(detailsData);
-        setCast(creditsData?.cast?.slice(0, 10));
+
+        setCast(creditsData?.cast?.slice(0, 25));
+
+        const video = videosData?.results?.find((video)=>video?.type === "Trailer")
+        setVideo(video);
+
+        const videos = videosData?.results?.filter((video)=> video?.type !== "Trailer")?.slice(0, 10);
+        setVideos(videos);
+
       } catch (error) {
         console.log(error, "error");
       } finally {
@@ -47,6 +60,8 @@ const DetailsPage = () => {
     };
     fetchData();
   }, [type, id]);
+
+  console.log(video,videos,'videos');
 
   const handleCastClick = (castId) => {
     navigate(`/cast/${castId}`);
@@ -109,7 +124,19 @@ const DetailsPage = () => {
                     {new Date(releaseDate).toLocaleDateString("en-IN")} (US)
                   </Text>
                 </Flex>
+                {type === "movie" && (
+                <>
+                <Box>*</Box>
+                <Flex alignItems={"center"} >
+                  <TimeIcon mr="2" color={"gray.400"} />
+                  <Text fontSize={"sm"}>{details?.runtime}</Text>
+                </Flex>
+
+                </>
+              )}
               </Flex>
+
+              
 
               <Flex alignItems={"center"} gap={"4"}>
                 <CircularProgress
@@ -224,7 +251,7 @@ const DetailsPage = () => {
                   </Link>
                 </Box>
                 <Text
-                  mt="4" // Margin between the image box and name
+                  mt="4" 
                   fontSize={"sm"}
                   fontWeight={"bold"}
                   color="#e87c79"
@@ -235,6 +262,23 @@ const DetailsPage = () => {
               </Flex>
             ))}
         </Flex>
+        <Heading  as={"h2"}
+          fontSize={"2xl"}
+          textTransform={"uppercase"}
+          mt={"10"}
+          color={"#e56c68"}  >
+           Trailers & Videos
+          </Heading>
+          <VideoComponent id={video?.key} />
+              <Flex mt="5" mb="10" overflowX={"scroll"} gap={"5"}  >
+                {video && videos?.map((item) =>(
+                  <Box key={item?.id} minW={"290px"}>
+                    <VideoComponent id={item?.key} small />
+                    <Text fontSize={"sm"} fontWeight={"bold"} mt="2" noOfLines={2}>{item?.name}</Text>
+                  </Box>
+                ))}
+
+              </Flex>
       </Container>
     </Box>
   );

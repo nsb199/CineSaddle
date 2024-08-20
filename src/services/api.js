@@ -65,3 +65,4 @@ export const fetchCastImages = async (id) => {
     const res = await axios.get(`${baseUrl}/person/${id}/images?api_key=${apiKey}`);
     return res?.data;
 };
+

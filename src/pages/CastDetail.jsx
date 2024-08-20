@@ -52,7 +52,7 @@ const CastDetail = () => {
   }
 
   return (
-    <Container maxW={"container.xl"} py="10" border="3px solid #e6d8b7"  bg={"#e6d8b7"} borderRadius={"34px"} boxShadow={"0 4px 8px rgba(0, 0, 0, 0.7)"} mb={"7"} >
+    <Container maxW={"container.xl"} py="10" borderRadius={"34px"} boxShadow={"0 2px 4px rgba(0, 0, 0, 0.5)"} mb={"7"} >
       <Flex alignItems={"center"} gap={"10"} flexDirection={{ base: "column", md: "row" }}>
     <Image
           height={"300px"}
