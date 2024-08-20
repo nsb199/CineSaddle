@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Flex, Grid, Heading } from "@chakra-ui/react";
+import { Box, Container, Flex, Grid, Heading, Skeleton } from "@chakra-ui/react";
 import { fetchTrending } from "../services/api";
 import CardComponent from "../components/CardComponent";
 
@@ -25,7 +25,7 @@ const Home = () => {
 
   return (
     <Container maxW={"container.xl"}>
-      <Flex alignItems={"baseline"} gap={"4"} my={"7"}>
+      <Flex alignItems={"baseline"} gap={"5"} my={"7"}>
         <Heading
           as="h2"
           fontSize={"xl"}
@@ -70,7 +70,7 @@ const Home = () => {
         </Flex>
       </Flex>
 
-      {loading && <div>Loading...</div>}
+      
 
       <Grid
         templateColumns={{
@@ -82,7 +82,15 @@ const Home = () => {
         gap={"7"}
       >
         {data &&
-          data?.map((item) => <CardComponent key={item?.id} item={item} />)}
+          data?.map((item, i) => (
+            loading ? (
+              <Skeleton height={"400px"} width={"100%"}
+              borderRadius={"20px"}
+              borderWidth={"1px"} key={i} />
+            ) : (
+              <CardComponent key={item?.id} item={item} />
+            )
+          ))}
       </Grid>
     </Container>
   );
