@@ -144,7 +144,7 @@ const Home = () => {
       </Grid>
 
    {/* Discover More Button */}
-   <Flex justifyContent="flex-end" mb={"20px"}>
+   <Flex justifyContent="flex-end" mt={"-109px"} mb={"70px"}>
   <Button
     onClick={() => navigate('/search')}
     colorScheme="teal"
