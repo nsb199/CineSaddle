@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Container, Flex, Grid, Image, Text, Heading, Spinner, Skeleton } from "@chakra-ui/react";
 import { fetchCastDetail, fetchCastMovies, fetchCastImages, imagePath } from "../services/api";
 import CardComponent from "../components/CardComponent";
+import BackToTopButton from "../utils/backtotop";
 
 const CastDetail = () => {
   const { id } = useParams(); // Extract ID from URL parameters
@@ -143,6 +144,7 @@ const CastDetail = () => {
                 transform={"scale(1)"}
                 _hover={{
                   transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                  transform: "scale(1.01)",
                   boxShadow: "0 8px 16px rgba(0, 0, 0, 0.7)",
                 }}
                 borderRadius="20px"
@@ -163,6 +165,7 @@ const CastDetail = () => {
           ))
         )}
       </Flex>
+      <BackToTopButton />
     </Container>
   );
 };

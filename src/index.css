@@ -28,3 +28,26 @@
   outline: none;
   border: none;
 }
+
+
+/* Styles for card wrapper */
+.card-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  animation: fadeInUp 0.5s forwards; /* Ensure animation applies */
+  will-change: opacity, transform; /* Optimize performance */
+}
+
+/* Keyframes for animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

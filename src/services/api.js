@@ -32,9 +32,11 @@ export const fetchVideos = async (type, id) => {
 
 // DISCOVER
 export const fetchMovies = async (page, sortBy) => {
-    const res = await axios.get(`${baseUrl}/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${sortBy}`);
+    const res = await axios.get(
+      `${baseUrl}/discover/movie?api_key=${apiKey}&page=${page}&sort_by=${sortBy}`
+    );
     return res?.data;
-};
+  };
 
 export const fetchTvSeries = async (page, sortBy) => {
     const res = await axios.get(`${baseUrl}/discover/tv?api_key=${apiKey}&page=${page}&sort_by=${sortBy}`);
@@ -63,6 +65,24 @@ export const fetchCastMovies = async (id, page = 1) => {
 // CAST - Images
 export const fetchCastImages = async (id) => {
     const res = await axios.get(`${baseUrl}/person/${id}/images?api_key=${apiKey}`);
+    return res?.data;
+};
+
+// COLLECTION - Images
+export const fetchCollectionImages = async (collectionId) => {
+    const res = await axios.get(`${baseUrl}/collection/${collectionId}/images?api_key=${apiKey}`);
+    return res?.data;
+};
+
+// MOVIE - Images
+export const fetchMovieImages = async (id) => {
+    const res = await axios.get(`${baseUrl}/movie/${id}/images?api_key=${apiKey}`);
+    return res?.data;
+};
+
+// TV SHOW - Images
+export const fetchTvImages = async (id) => {
+    const res = await axios.get(`${baseUrl}/tv/${id}/images?api_key=${apiKey}`);
     return res?.data;
 };
 

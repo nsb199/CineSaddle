@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import BackToTopButton from "../utils/backtotop";
+
+
 import {
   Badge,
   Box,
@@ -8,6 +11,8 @@ import {
   CircularProgressLabel,
   Container,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   Image,
   Spinner,
@@ -19,9 +24,12 @@ import {
   fetchVideos,
   imagePath,
   imagePathOriginal,
+  fetchMovieImages,
+  fetchTvImages,
+
 } from "../services/api";
-import { CalendarIcon, CheckCircleIcon, SmallAddIcon, TimeIcon } from "@chakra-ui/icons";
-import { ratingToPercentage, resolveRatingColor } from "../utils/helpers";
+import { CalendarIcon, CheckCircleIcon, ChevronUpIcon, SmallAddIcon, TimeIcon } from "@chakra-ui/icons";
+import { minutesTohours, ratingToPercentage, resolveRatingColor } from "../utils/helpers";
 import VideoComponent from "../components/VideoComponent";
 
 const DetailsPage = () => {
@@ -33,25 +41,45 @@ const DetailsPage = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [backdrops, setBackdrops] = useState([]);
+
   useEffect(() => {
+
+   
+
+
+
+
+
+
+
+
     const fetchData = async () => {
       try {
         const [detailsData, creditsData, videosData] = await Promise.all([
           fetchDetails(type, id),
           fetchCredits(type, id),
           fetchVideos(type, id),
-
         ]);
+  
         setDetails(detailsData);
-
         setCast(creditsData?.cast?.slice(0, 25));
-
-        const video = videosData?.results?.find((video)=>video?.type === "Trailer")
+  
+        const video = videosData?.results?.find((video) => video?.type === "Trailer");
         setVideo(video);
-
-        const videos = videosData?.results?.filter((video)=> video?.type !== "Trailer")?.slice(0, 10);
+  
+        const videos = videosData?.results?.filter((video) => video?.type !== "Trailer")?.slice(0, 10);
         setVideos(videos);
-
+  
+        // Fetch backdrops based on type
+        let imagesData;
+        if (type === "movie") {
+          imagesData = await fetchMovieImages(id);
+        } else if (type === "tv") {
+          imagesData = await fetchTvImages(id);
+        }
+        
+        setBackdrops((imagesData?.backdrops || []).slice(0, 25));
       } catch (error) {
         console.log(error, "error");
       } finally {
@@ -60,8 +88,7 @@ const DetailsPage = () => {
     };
     fetchData();
   }, [type, id]);
-
-  console.log(video,videos,'videos');
+  
 
   const handleCastClick = (castId) => {
     navigate(`/cast/${castId}`);
@@ -125,18 +152,15 @@ const DetailsPage = () => {
                   </Text>
                 </Flex>
                 {type === "movie" && (
-                <>
-                <Box>*</Box>
-                <Flex alignItems={"center"} >
-                  <TimeIcon mr="2" color={"gray.400"} />
-                  <Text fontSize={"sm"}>{details?.runtime}</Text>
-                </Flex>
-
-                </>
-              )}
+                  <>
+                    <Box>*</Box>
+                    <Flex alignItems={"center"}>
+                      <TimeIcon mr="2" color={"gray.400"} />
+                      <Text fontSize={"sm"}>{minutesTohours(details?.runtime)}</Text>
+                    </Flex>
+                  </>
+                )}
               </Flex>
-
-              
 
               <Flex alignItems={"center"} gap={"4"}>
                 <CircularProgress
@@ -234,6 +258,7 @@ const DetailsPage = () => {
                   transform={"scale(1)"}
                   _hover={{
                     transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                    transform: "scale(1.01)",
                     boxShadow: "0 8px 16px rgba(0, 0, 0, 0.7)",
                   }}
                   borderRadius="20px"
@@ -251,7 +276,7 @@ const DetailsPage = () => {
                   </Link>
                 </Box>
                 <Text
-                  mt="4" 
+                  mt="4"
                   fontSize={"sm"}
                   fontWeight={"bold"}
                   color="#e87c79"
@@ -262,24 +287,96 @@ const DetailsPage = () => {
               </Flex>
             ))}
         </Flex>
-        <Heading  as={"h2"}
+        <Heading
+          as={"h2"}
           fontSize={"2xl"}
           textTransform={"uppercase"}
           mt={"10"}
-          color={"#e56c68"}  >
-           Trailers & Videos
-          </Heading>
-          <VideoComponent id={video?.key} />
-              <Flex mt="5" mb="10" overflowX={"scroll"} gap={"5"}  >
-                {video && videos?.map((item) =>(
-                  <Box key={item?.id} minW={"290px"}>
-                    <VideoComponent id={item?.key} small />
-                    <Text fontSize={"sm"} fontWeight={"bold"} mt="2" noOfLines={2}>{item?.name}</Text>
-                  </Box>
-                ))}
+          mb={"5"}
+          color={"#e56c68"}
+        >
+          Trailers & Videos
+        </Heading>
+        <VideoComponent id={video?.key} />
+        <Flex mt="5" mb="10" overflowX={"scroll"} gap={"5"} className="custom-scrollbar">
+          {video && videos?.map((item) => (
+            <Box key={item?.id} minW={"290px"}>
+              <VideoComponent id={item?.key} small />
+              <Text color="#e87c79" fontSize={"sm"} noOfLines={"2"} textTransform={"uppercase"} mt="3" fontWeight={"bold"}>
+                {item?.name}
+              </Text>
+            </Box>
+          ))}
+        </Flex>
 
-              </Flex>
+        <Heading
+          as={"h2"}
+          fontSize={"2xl"}
+          textTransform={"uppercase"}
+          mt={"10"}
+          mb={"5"}
+          color={"#e56c68"}
+        >
+          Awesome Wallpapers from {title}
+        </Heading>
+        
+        
+        {/* Backdrops  */}
+        
+        {backdrops.length === 0 ? (
+      <Text>No backdrops found</Text>
+    ) : (
+      <Grid
+        templateColumns={{
+          base: "1fr",
+          sm: "repeat(1, 1fr)",
+          md: "repeat(2, 1fr)",
+          lg: "repeat(3, 1fr)",
+        }}
+        gap={"5"}
+        mt="5"
+        mb="10"
+      >
+        {backdrops.map((item) => (
+          <GridItem key={item.file_path}>
+            <Box
+              borderRadius={"20px"}
+              overflow={"hidden"}
+              boxShadow={"0 4px 8px rgba(0, 0, 0, 0.3)"}
+              _hover={{
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
+                transform: "scale(1.01)",
+                transition: "box-shadow 0.3s ease, transform 0.3s ease",
+              }}
+            >
+              <a
+                href={`${imagePathOriginal}/${item.file_path}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'block', width: '100%', height: 'auto' }}
+              >
+                <Image
+                  src={`${imagePathOriginal}/${item.file_path}`}
+                  width={"100%"}
+                  height={"auto"}
+                  objectFit={"cover"}
+                />
+              </a>
+            </Box>
+          </GridItem>
+        ))}
+      </Grid>
+    )};
+
+
+
+
+
       </Container>
+
+    
+      <BackToTopButton />
+
     </Box>
   );
 };
