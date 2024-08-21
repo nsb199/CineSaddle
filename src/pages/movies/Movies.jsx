@@ -92,6 +92,7 @@ const Movies = () => {
             _expanded={{
               transform: "scale(1.05)",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
+             
             }}
             transition="all 0.5s ease"
           >

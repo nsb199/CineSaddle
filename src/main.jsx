@@ -11,6 +11,8 @@ import Shows from "./pages/shows/Shows.jsx";
 import Search from "./pages/search/Search.jsx";
 import DetailsPage from "./pages/DetailsPage.jsx";
 import CastDetail from "./pages/CastDetail.jsx"; // Import the CastDetail component
+import { AuthProvider } from "./context/authProvider.jsx";
+import Watchlist from "./pages/Watchlist.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,8 +40,12 @@ const router = createBrowserRouter([
         element: <DetailsPage />,
       },
       {
-        path: "/cast/:id", // Add the route for CastDetail
+        path: "/cast/:id", 
         element: <CastDetail />,
+      },
+      {
+        path: '/watchlist', 
+        element: <Watchlist />,
       },
     ],
   },
@@ -49,7 +55,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider theme={theme}>
+      <AuthProvider>
       <RouterProvider router={router} />
+      </AuthProvider>
+      
     </ChakraProvider>
   </React.StrictMode>
 );

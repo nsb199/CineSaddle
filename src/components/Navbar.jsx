@@ -4,15 +4,47 @@ import {
   Flex,
   Image,
   Link as ChakraLink,
+  Menu,
+  MenuButton,
+  Avatar,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
-
+import { useAuth } from "../context/useAuth";
+import { Search2Icon } from "@chakra-ui/icons";
+import { useEffect } from "react";
 
 const Navbar = () => {
-  
+  const { user, signInWithGoogle, logout } = useAuth();
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      console.log("success");
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.reload(); // Reload the page after logout
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("User:", user);
+  //   }
+  // }, [user]);
+
   return (
-    <Box py="4" mb="1" mt="1"  >
+    <Box py="4" mb="1" mt="1">
       <Container maxW={"container.xl"}>
         <Flex justifyContent={"space-between"} alignItems={"center"}>
           <Link to="/">
@@ -107,8 +139,9 @@ const Navbar = () => {
               to={"/search"}
               color="#e56c68"
               fontSize="xl"
-              fontWeight="semibold"
               position="relative"
+              display="flex"
+              alignItems="center"
               _after={{
                 content: '""',
                 position: "absolute",
@@ -119,16 +152,63 @@ const Navbar = () => {
                 backgroundColor: "#e56c68",
                 transition: "width 0.3s ease",
               }}
-              _hover={{
-                _after: {
-                  width: "100%",
-                },
-              }}
+              
             >
-              Search
+              <Search2Icon
+                boxSize={6} 
+                transition="transform 0.3s ease"
+                _hover={{
+                  transform: "scale(1.1)",
+                }}
+                verticalAlign="middle" 
+              />
             </ChakraLink>
+
+            {user && (
+              <Menu>
+                <MenuButton>
+                  <Avatar
+                    bg={"red.500"}
+                    color={"white"}
+                    size={"sm"}
+                    name={user?.displayName}
+                    src={user?.photoURL} 
+                  />
+                </MenuButton>
+                <MenuList
+                bg="#f6e9ca"
+                fontWeight="semibold"
+                color="#e56c68"
+                borderRadius="10px"
+                border="none"
+                boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+                >
+                  <Link to="/watchlist">
+                    <MenuItem
+                     _hover={{ bg: "#e56c68", color: "white" }}
+                     fontWeight="semibold"
+                     bg="#f6e9ca"
+                    >Watchlist</MenuItem>
+                  </Link>
+                  <MenuItem onClick={handleLogout}
+                   _hover={{ bg: "#e56c68", color: "white" }}
+                   fontWeight="semibold"
+                   bg="#f6e9ca"
+                  >Log Out</MenuItem>
+                </MenuList>
+              </Menu>
+            )}
+            {!user && (
+              <Avatar
+                size={"sm"}
+                bg={"#eb8c8b"}
+                as="button"
+                onClick={handleGoogleLogin}
+              />
+            )}
           </Flex>
         </Flex>
+        
       </Container>
     </Box>
   );
