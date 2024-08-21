@@ -10,7 +10,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState, useRef } from "react";
 import { fetchMovies } from "../../services/api";
@@ -23,7 +23,7 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [sortBy, setSortBy] = useState('popularity.desc');
+  const [sortBy, setSortBy] = useState("popularity.desc");
   const [isLoading, setIsLoading] = useState(true);
   const cardsRef = useRef(null);
   const [animate, setAnimate] = useState(false);
@@ -53,12 +53,12 @@ const Movies = () => {
   // Function to get the display text based on sortBy value
   const getSortLabel = () => {
     switch (sortBy) {
-      case 'popularity.desc':
-        return 'Popular';
-      case 'vote_average.desc&vote_count.gte=1000':
-        return 'Top Rated';
+      case "popularity.desc":
+        return "Popular";
+      case "vote_average.desc&vote_count.gte=1000":
+        return "Top Rated";
       default:
-        return 'Sort By';
+        return "Sort By";
     }
   };
 
@@ -89,7 +89,10 @@ const Movies = () => {
             borderRadius="10px"
             fontWeight="bold"
             _hover={{ bg: "#d14e4a" }}
-            _expanded={{ transform: "scale(1.05)", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)" }}
+            _expanded={{
+              transform: "scale(1.05)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
+            }}
             transition="all 0.5s ease"
           >
             <Text>{getSortLabel()}</Text>
@@ -111,7 +114,9 @@ const Movies = () => {
               Popular
             </MenuItem>
             <MenuItem
-              onClick={() => handleSortChange("vote_average.desc&vote_count.gte=1000")}
+              onClick={() =>
+                handleSortChange("vote_average.desc&vote_count.gte=1000")
+              }
               _hover={{ bg: "#e56c68", color: "white" }}
               fontWeight="semibold"
               bg="#f6e9ca"
@@ -133,22 +138,35 @@ const Movies = () => {
         mb={"160px"}
         ref={cardsRef}
       >
-        {movies && movies.map((item, i) => (
-          isLoading ? (
-            <Skeleton height={"400px"} width={"100%"} borderRadius={"20px"} borderWidth={"1px"} key={i} startColor="#ef9c9d" endColor="#f3c1b4" />
-          ) : (
-            <Box
-              key={item?.id}
-              className={`card-wrapper ${animate ? 'card-appear' : ''}`}
-            >
-              <CardComponent item={item} type={'movie'} />
-            </Box>
-          )
-        ))}
+        {movies &&
+          movies.map((item, i) =>
+            isLoading ? (
+              <Skeleton
+                height={"400px"}
+                width={"100%"}
+                borderRadius={"20px"}
+                borderWidth={"1px"}
+                key={i}
+                startColor="#ef9c9d"
+                endColor="#f3c1b4"
+              />
+            ) : (
+              <Box
+                key={item?.id}
+                className={`card-wrapper ${animate ? "card-appear" : ""}`}
+              >
+                <CardComponent item={item} type={"movie"} />
+              </Box>
+            )
+          )}
       </Grid>
 
       {/* Pagination */}
-      <PaginationComponent activePage={activePage} totalPages={totalPages} setActivePage={setActivePage} />
+      <PaginationComponent
+        activePage={activePage}
+        totalPages={totalPages}
+        setActivePage={setActivePage}
+      />
       <BackToTopButton />
     </Container>
   );
