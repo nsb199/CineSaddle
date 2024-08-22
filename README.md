@@ -4,17 +4,17 @@ Welcome to **CineSaddle**, the ultimate destination for movie enthusiasts! Wheth
 
 ## 🌟 Features
 
-- **Beautiful and Easy-to-Navigate UI**: CineSaddle's interface is not just functional but also aesthetically pleasing. Every page is designed with user experience in mind, ensuring you can easily explore and manage your watchlist without any hassle.
+- **🎨 Beautiful and Easy-to-Navigate UI**: CineSaddle's interface is not just functional but also aesthetically pleasing. Every page is designed with user experience in mind, ensuring you can easily explore and manage your watchlist without any hassle.
 
-- **Firebase Authentication and Database**: Your watchlist is securely stored and managed through Firebase. Sign in to keep your personalized movie collection updated and accessible wherever you go.
+- **🔐 Firebase Authentication and Database**: Your watchlist is securely stored and managed through Firebase. Sign in to keep your personalized movie collection updated and accessible wherever you go.
 
-- **Download Movie Wallpapers**: Love the visuals of a movie? Download high-quality wallpapers directly from CineSaddle and give your devices a cinematic touch.
+- **🖼️ Download Movie Wallpapers**: Love the visuals of a movie? Download high-quality wallpapers directly from CineSaddle and give your devices a cinematic touch.
 
-- **Detailed Cast Information**: Want to know more about the stars of your favorite movies? CineSaddle offers detailed cast pages where you can explore biographies, filmographies, and more.
+- **🎭 Detailed Cast Information**: Want to know more about the stars of your favorite movies? CineSaddle offers detailed cast pages where you can explore biographies, filmographies, and more.
 
-- **Explore and Add to Watchlist**: Browse through an extensive collection of movies and TV shows, watch trailers, get recommendations, and easily add them to your watchlist for later viewing.
+- **🎬 Explore and Add to Watchlist**: Browse through an extensive collection of movies and TV shows, watch trailers, get recommendations, and easily add them to your watchlist for later viewing.
 
-- **Smooth Scrolling and Animations**: Experience the joy of browsing with smooth scrolling animations that enhance the visual experience as you navigate through the site.
+- **✨ Smooth Scrolling and Animations**: Experience the joy of browsing with smooth scrolling animations that enhance the visual experience as you navigate through the site.
 
 ## 🚀 Getting Started
 
@@ -37,22 +37,30 @@ CineSaddle is built using modern web technologies to ensure a smooth and respons
 
 Here are some screenshots showcasing the different pages and features of CineSaddle:
 
-- **Home Page**: ![CineSaddle Home Page](./screenshots/homepage.png)
-- **Discover Movies/Shows**: ![CineSaddle Movie Details](./screenshots/discover.png)
-- **Movie Details Page**: ![CineSaddle Movie Details](./screenshots/movie-details.png)
-- **Cast and Trailers**: ![CineSaddle Movie Details](./screenshots/movie-details-2.png)
-- **Download Wallpapers**: ![CineSaddle Movie Details](./screenshots/wallpapers.png)
-- **Watchlist Page**: ![CineSaddle Watchlist Page](./screenshots/watchlist.png)
-- **Cast Information Page**: ![CineSaddle Cast Page](./screenshots/cast-page.png)
+- **🏠 Home Page**:
+  ![CineSaddle Home Page](./screenshots/homepage.png)
+- **🔍 Discover Movies/Shows**:
+  ![CineSaddle Movie Details](./screenshots/discover.png)
+- **📄 Movie Details Page**:
+  ![CineSaddle Movie Details](./screenshots/movie-details.png)
+- **🎥 Cast and Trailers**:
+  ![CineSaddle Movie Details](./screenshots/movie-details-2.png)
+- **🖼️ Download Wallpapers**:
+  ![CineSaddle Movie Details](./screenshots/wallpapers.png)
+- **📋 Watchlist Page**:
+  ![CineSaddle Watchlist Page](./screenshots/watchlist.png)
+- **👤 Cast Information Page**:
+  ![CineSaddle Cast Page](./screenshots/cast-page.png)
 
 ## 📱 Mobile Screenshots
 
-CineSaddle is fully responsive and offers a seamless experience on mobile devices. Check out the mobile views:
+CineSaddle is fully responsive and offers a seamless experience on mobile devices. Here are the mobile views displayed in a two-column layout:
 
-- **Mobile Home Page**: ![CineSaddle Mobile Home Page](./screenshots/mobile-homepage.jpg)
-- **Mobile Sidebar**: ![CineSaddle Mobile Sidebar](./screenshots/mobile-sidebar.jpg)
-- **Mobile Watchlist Page**: ![CineSaddle Mobile Watchlist Page](./screenshots/mobile-watchlist.jpg)
-- **Mobile Movie Details Page**: ![CineSaddle Mobile Movie Details](./screenshots/mobile-movie-details.jpg)
+| **📱 Mobile Home Page** | **📱 Mobile Sidebar** |
+|:----------------------:|:--------------------:|
+| ![CineSaddle Mobile Home Page](./screenshots/mobile-homepage.jpg) | ![CineSaddle Mobile Sidebar](./screenshots/mobile-sidebar.jpg) |
+| **📱 Mobile Watchlist Page** | **📱 Mobile Movie Details Page** |
+| ![CineSaddle Mobile Watchlist Page](./screenshots/mobile-watchlist.jpg) | ![CineSaddle Mobile Movie Details](./screenshots/mobile-movie-details.jpg) |
 
 ## 🤝 Contributing
 
@@ -70,4 +78,4 @@ This project is licensed under the MIT License.
 
 ---
 
-Thank you for exploring CineSaddle! Enjoy watching and managing your favorite movies and TV shows with Me.
+Thank you for exploring CineSaddle! Enjoy watching and managing your favorite movies and TV shows with me.
