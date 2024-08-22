@@ -1,18 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import { Box, Container, Flex, Text, Image, Link, Grid, Heading, Skeleton, Button } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 import { fetchTrending } from "../services/api";
 import CardComponent from "../components/CardComponent";
 import BackToTopButton from "../utils/backtotop";
-
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [timeWindow, setTimeWindow] = useState("day");
   const [animate, setAnimate] = useState(false);
+  const [footerLoaded, setFooterLoaded] = useState(false); 
   const cardsRef = useRef(null);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     setLoading(true);
@@ -43,6 +43,14 @@ const Home = () => {
       });
     }
   }, [data, animate]);
+
+  useEffect(() => {
+    if (!loading) {
+      
+      const timer = setTimeout(() => setFooterLoaded(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
 
   return (
     <Container maxW={"container.xl"}>
@@ -117,8 +125,6 @@ const Home = () => {
         </Flex>
       </Flex>
 
-     
-     
       <Grid
         templateColumns={{
           base: "1fr",
@@ -144,79 +150,76 @@ const Home = () => {
         ))}
       </Grid>
 
-   {/* Discover More Button */}
-   <Flex justifyContent="flex-end" mt={"-109px"} mb={"70px"}>
-  <Button
-    onClick={() => navigate('/search')}
-    colorScheme="teal"
-    size="lg"
-    borderRadius="20px"
-    px="8"
-    py="4"
-    bg="#e56c68"
-    color="white"
-    _hover={{ 
-      bg: "#d14e4a",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.5)",
-      transform: "scale(1.01)"
-    }}
-    boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"
-    transition="all 0.3s ease"
-  >
-    Discover More
-  </Button>
-</Flex>
+      {/* Discover More Button */}
+      <Flex justifyContent="flex-end" mt={"-109px"} mb={"70px"}>
+        <Button
+          onClick={() => navigate('/search')}
+          colorScheme="teal"
+          size="lg"
+          borderRadius="20px"
+          px="8"
+          py="4"
+          bg="#e56c68"
+          color="white"
+          _hover={{ 
+            bg: "#d14e4a",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.5)",
+            transform: "scale(1.01)"
+          }}
+          boxShadow="0 4px 6px rgba(0, 0, 0, 0.3)"
+          transition="all 0.3s ease"
+        >
+          Discover More
+        </Button>
+      </Flex>
 
-
-{/* footer  */}
-
-<Box
-        as="footer"
-        py="4"
-        mb={"100"}
-        bg="#f6e9ca"
-        textAlign="center"
-        position="relative"
-        mt="auto"
-      >
-        <Flex justifyContent="center" gap="4" mb="2">
-          <Link href="https://www.linkedin.com/in/neerajsingh19/" isExternal>
-            <Image
-              src="/linkedin.svg"
-              alt="LinkedIn"
-              boxSize="30px"
-              _hover={{
-                transform: "scale(1.1)",
-                filter: "brightness(0.8)",
-              }}
-              transition="all 0.3s ease"
-            />
-          </Link>
-          <Link href="https://github.com/nsb199" isExternal>
-            <Image
-              src="/github.svg"
-              alt="GitHub"
-              boxSize="30px"
-              
-              _hover={{
-                transform: "scale(1.1)",
-                filter: "brightness(0.8)",
-              }}
-              transition="all 0.3s ease"
-            />
-          </Link>
-        </Flex>
-        <Text fontSize="sm" color={"#e87c79"} fontWeight={"bold"} >
-          &copy; 2024 CineSaddle. Curated with love by{" "}
-          <Link href="https://www.linkedin.com/in/neerajsingh19/" isExternal color="blue.400">
-            Neeraj Singh
-          </Link>
-        </Text>
-      </Box>
+      {/* Conditionally render footer */}
+      {footerLoaded && (
+        <Box
+          as="footer"
+          py="4"
+          mb={"100"}
+          bg="#f6e9ca"
+          textAlign="center"
+          position="relative"
+          mt="auto"
+        >
+          <Flex justifyContent="center" gap="4" mb="2">
+            <Link href="https://www.linkedin.com/in/neerajsingh19/" isExternal>
+              <Image
+                src="/linkedin.svg"
+                alt="LinkedIn"
+                boxSize="30px"
+                _hover={{
+                  transform: "scale(1.1)",
+                  filter: "brightness(0.8)",
+                }}
+                transition="all 0.3s ease"
+              />
+            </Link>
+            <Link href="https://github.com/nsb199" isExternal>
+              <Image
+                src="/github.svg"
+                alt="GitHub"
+                boxSize="30px"
+                _hover={{
+                  transform: "scale(1.1)",
+                  filter: "brightness(0.8)",
+                }}
+                transition="all 0.3s ease"
+              />
+            </Link>
+          </Flex>
+          <Text fontSize="sm" color={"#e87c79"} fontWeight={"bold"}>
+            &copy; 2024 CineSaddle. Curated with love by{" "}
+            <Link href="https://www.linkedin.com/in/neerajsingh19/" isExternal color="blue.400">
+              Neeraj Singh
+            </Link>
+          </Text>
+        </Box>
+      )}
 
       <BackToTopButton />
-
-
     </Container>
   );
 };
