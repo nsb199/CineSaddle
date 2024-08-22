@@ -130,7 +130,7 @@ const Movies = () => {
 
       <Grid
         templateColumns={{
-          base: "1fr",
+          base: "repeat(2,1fr)",
           sm: "repeat(2,1fr)",
           md: "repeat(3,1fr)",
           lg: "repeat(4,1fr)",

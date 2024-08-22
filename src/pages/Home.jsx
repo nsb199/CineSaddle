@@ -58,76 +58,80 @@ const Home = () => {
         <Heading as="h2" fontSize={"xl"} textTransform={"uppercase"} color="#e56c68">
           Trending
         </Heading>
+
         <Flex
-          alignItems={"center"}
-          gap={"2"}
-          border={"1px solid transparent"}
-          borderRadius={"20px"}
-          boxShadow="0 0 1px #e87c79, 0 0 0 1px #e87c79"
-          _hover={{ boxShadow: "0 0 4px 2px #e87c79" }}
-          transition="background-color 0.61s ease, box-shadow 0.3s ease"
-          position="relative"
-        >
-          <Box
-            as="button"
-            px="3"
-            py="1"
-            borderRadius={"20px"}
-            color="#8e6f6f"
-            fontWeight="semibold"
-            bg={timeWindow === 'day' ? "#f3c1b4" : ""}
-            onClick={() => setTimeWindow("day")}
-            transition="background-color 0.61s ease, box-shadow 0.3s ease"
-            position="relative"
-            overflow="hidden"
-          >
-            Today
-            <Box
-              position="absolute"
-              bottom="0"
-              left="0"
-              width="100%"
-              height="100%"
-              bg="#f3c1b4"
-              borderRadius={"20px"}
-              zIndex="-1"
-              transition="transform 0.61s ease"
-              transform={timeWindow === 'day' ? "translateX(0)" : "translateX(100%)"}
-            />
-          </Box>
-          <Box
-            as="button"
-            px="3"
-            py="1"
-            borderRadius={"20px"}
-            color="#8e6f6f"
-            fontWeight="semibold"
-            bg={timeWindow === 'week' ? "#f3c1b4" : ""}
-            onClick={() => setTimeWindow("week")}
-            transition="background-color 0.61s ease, box-shadow 0.3s ease"
-            position="relative"
-            overflow="hidden"
-          >
-            This Week
-            <Box
-              position="absolute"
-              bottom="0"
-              left="0"
-              width="100%"
-              height="100%"
-              bg="#f3c1b4"
-              borderRadius={"20px"}
-              zIndex="-1"
-              transition="transform 0.61s ease"
-              transform={timeWindow === 'week' ? "translateX(0)" : "translateX(-100%)"}
-            />
-          </Box>
-        </Flex>
+  alignItems="center"
+  gap={{ base: "1", sm: "2" }}  // Adjust gap size based on screen size
+  border="1px solid transparent"
+  borderRadius="20px"
+  boxShadow="0 0 1px #e87c79, 0 0 0 1px #e87c79"
+  _hover={{ boxShadow: "0 0 4px 2px #e87c79" }}
+  transition="background-color 0.61s ease, box-shadow 0.3s ease"
+  position="relative"
+>
+  <Box
+    as="button"
+    px={{ base: "2", sm: "3" }}  // Adjust padding based on screen size
+    py={{ base: "0.5", sm: "1" }}
+    borderRadius="20px"
+    color="#8e6f6f"
+    fontWeight="semibold"
+    fontSize={{ base: "sm", sm: "md" }}  // Adjust font size based on screen size
+    bg={timeWindow === 'day' ? "#f3c1b4" : ""}
+    onClick={() => setTimeWindow("day")}
+    transition="background-color 0.61s ease, box-shadow 0.3s ease"
+    position="relative"
+    overflow="hidden"
+  >
+    Today
+    <Box
+      position="absolute"
+      bottom="0"
+      left="0"
+      width="100%"
+      height="100%"
+      bg="#f3c1b4"
+      borderRadius="20px"
+      zIndex="-1"
+      transition="transform 0.61s ease"
+      transform={timeWindow === 'day' ? "translateX(0)" : "translateX(100%)"}
+    />
+  </Box>
+  <Box
+    as="button"
+    px={{ base: "2", sm: "3" }}  // Adjust padding based on screen size
+    py={{ base: "0.5", sm: "1" }}
+    borderRadius="20px"
+    color="#8e6f6f"
+    fontWeight="semibold"
+    fontSize={{ base: "sm", sm: "md" }}  // Adjust font size based on screen size
+    bg={timeWindow === 'week' ? "#f3c1b4" : ""}
+    onClick={() => setTimeWindow("week")}
+    transition="background-color 0.61s ease, box-shadow 0.3s ease"
+    position="relative"
+    overflow="hidden"
+  >
+    This Week
+    <Box
+      position="absolute"
+      bottom="0"
+      left="0"
+      width="100%"
+      height="100%"
+      bg="#f3c1b4"
+      borderRadius="20px"
+      zIndex="-1"
+      transition="transform 0.61s ease"
+      transform={timeWindow === 'week' ? "translateX(0)" : "translateX(-100%)"}
+    />
+  </Box>
+</Flex>
+
       </Flex>
 
       <Grid
         templateColumns={{
-          base: "1fr",
+          base: "repeat(2,1fr)",
           sm: "repeat(2,1fr)",
           md: "repeat(3,1fr)",
           lg: "repeat(4,1fr)",

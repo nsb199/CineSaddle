@@ -58,14 +58,15 @@ const Navbar = () => {
     <Box py="4" mb="1" mt="1">
       <Container maxW={"container.xl"}>
         <Flex justifyContent={"space-between"} alignItems={"center"}>
-          <Link to="/">
-            <Image
-              src={Logo}
-              alt="CineSaddle Logo"
-              width="219px"
-              height="auto"
-            />
-          </Link>
+        <Link to="/">
+  <Image
+    src={Logo}
+    alt="CineSaddle Logo"
+    width={{ base: "120px", sm: "160px", md: "219px" }} // Adjust width based on screen size
+    height="auto"
+  />
+</Link>
+
 
           {/* DESKTOP  */}
 
@@ -263,12 +264,12 @@ const Navbar = () => {
               aria-label="Open menu"
               variant="ghost"
               display="flex"
-              alignItems="center" // This ensures the icon is centered
+              alignItems="center" 
             />
 
             <Drawer isOpen={isOpen} placement="right"  onClose={onClose}>
               <DrawerOverlay />
-              <DrawerContent bg={"#e6736e"} borderRadius={"20px"} border={"1px solid #f6e9ca"} >
+              <DrawerContent bg={"#e6736e"} borderRadius={"20px"} border={"1px solid #f6e9ca"} maxWidth={"61%"} mr={"7px"} >
                 <DrawerCloseButton fontSize={"md"} color={"#f6e9ca"} mt={"2"} mr={"1"} />
                 <DrawerHeader>
                   {user ? (

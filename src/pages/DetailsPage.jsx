@@ -164,7 +164,7 @@ const DetailsPage = () => {
     type === "tv" ? details?.first_air_date : details?.release_date;
 
   return (
-    <Box>
+    <Box mx={{ base: "2", md: "4" }} >
       <Box
         background={`linear-gradient(rgba(0,0,0,.88), rgba(0,0,0,0.5)), url(${imagePathOriginal}/${details?.backdrop_path})`}
         backgroundRepeat={"no-repeat"}
@@ -172,7 +172,9 @@ const DetailsPage = () => {
         backgroundPosition={"center"}
         w={"100%"}
         h={{ base: "auto", md: "100vh" }}
-        py={"2"}
+        py={"7"}
+        px={{ base: "4", md: "8", lg: "12" }}
+        justifyContent={"center"}
         display={"flex"}
         alignItems={"center"}
         position={"relative"}
@@ -186,7 +188,7 @@ const DetailsPage = () => {
             flexDirection={{ base: "column", md: "row" }}
           >
             <Image
-              height={"450px"}
+              height={{ base: "300px", md: "400px", lg: "450px" }}
               borderRadius={"20px"}
               src={`${imagePath}/${details?.poster_path}`}
               border={"3px solid #f6e9ca"}
@@ -310,7 +312,7 @@ const DetailsPage = () => {
       <Container maxW={"container.xl"} pb="10" border="none" outline="none">
         <Heading
           as={"h2"}
-          fontSize={"2xl"}
+          fontSize={{ base: "lg", md: "2xl" }} 
           textTransform={"uppercase"}
           mt={"10"}
           color={"#e56c68"}
@@ -334,7 +336,7 @@ const DetailsPage = () => {
                 key={item?.id}
                 direction={"column"}
                 alignItems={"center"}
-                minW={"150px"}
+                minW={{ base: "120px", md: "150px" }}
               >
                 <Box
                   position={"relative"}
@@ -356,7 +358,7 @@ const DetailsPage = () => {
                     <Image
                       src={`${imagePath}/${item?.profile_path}`}
                       w={"100%"}
-                      height={"225px"}
+                      height={{ base: "180px", md: "225px" }}
                       objectFit={"cover"}
                       borderRadius={"20px"}
                     />
@@ -364,7 +366,8 @@ const DetailsPage = () => {
                 </Box>
                 <Text
                   mt="4"
-                  fontSize={"sm"}
+                  mb={"4"}
+                  fontSize={{ base: "xs", md: "sm" }}
                   fontWeight={"bold"}
                   color="#e87c79"
                   textTransform={"uppercase"}
@@ -376,7 +379,7 @@ const DetailsPage = () => {
         </Flex>
         <Heading
           as={"h2"}
-          fontSize={"2xl"}
+          fontSize={{ base: "lg", md: "2xl" }} 
           textTransform={"uppercase"}
           mt={"10"}
           mb={"5"}
@@ -394,11 +397,11 @@ const DetailsPage = () => {
         >
           {video &&
             videos?.map((item) => (
-              <Box key={item?.id} minW={"290px"}>
+              <Box key={item?.id} minW={{ base: "240px", md: "290px" }} mb={"4"} >
                 <VideoComponent id={item?.key} small />
                 <Text
                   color="#e87c79"
-                  fontSize={"sm"}
+                  fontSize={{ base: "xs", md: "sm" }} 
                   noOfLines={"2"}
                   textTransform={"uppercase"}
                   mt="3"
@@ -411,7 +414,7 @@ const DetailsPage = () => {
         </Flex>
         <Heading
           as={"h2"}
-          fontSize={"2xl"}
+          fontSize={{ base: "lg", md: "2xl" }}
           textTransform={"uppercase"}
           mt={"10"}
           mb={"5"}
@@ -426,7 +429,7 @@ const DetailsPage = () => {
           <Grid
             templateColumns={{
               base: "1fr",
-              sm: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
               md: "repeat(2, 1fr)",
               lg: "repeat(3, 1fr)",
             }}
