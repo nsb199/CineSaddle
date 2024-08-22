@@ -13,6 +13,7 @@ import DetailsPage from "./pages/DetailsPage.jsx";
 import CastDetail from "./pages/CastDetail.jsx"; // Import the CastDetail component
 import { AuthProvider } from "./context/authProvider.jsx";
 import Watchlist from "./pages/Watchlist.jsx";
+import Protected from "./components/routes/Protected.jsx";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,10 @@ const router = createBrowserRouter([
       },
       {
         path: '/watchlist', 
-        element: <Watchlist />,
+        element: (<Protected >
+          <Watchlist />
+        </Protected>
+        ),
       },
     ],
   },
