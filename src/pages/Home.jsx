@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import { Box, Container, Flex, Grid, Heading, Skeleton, Button } from "@chakra-ui/react";
+import { Box, Container, Flex, Text, Image, Link, Grid, Heading, Skeleton, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { fetchTrending } from "../services/api";
 import CardComponent from "../components/CardComponent";
 import BackToTopButton from "../utils/backtotop";
+
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -167,9 +168,55 @@ const Home = () => {
 </Flex>
 
 
+{/* footer  */}
 
+<Box
+        as="footer"
+        py="4"
+        mb={"100"}
+        bg="#f6e9ca"
+        textAlign="center"
+        position="relative"
+        mt="auto"
+      >
+        <Flex justifyContent="center" gap="4" mb="2">
+          <Link href="https://www.linkedin.com/in/neerajsingh19/" isExternal>
+            <Image
+              src="/linkedin.svg"
+              alt="LinkedIn"
+              boxSize="30px"
+              _hover={{
+                transform: "scale(1.1)",
+                filter: "brightness(0.8)",
+              }}
+              transition="all 0.3s ease"
+            />
+          </Link>
+          <Link href="https://github.com/nsb199" isExternal>
+            <Image
+              src="/github.svg"
+              alt="GitHub"
+              boxSize="30px"
+              
+              _hover={{
+                transform: "scale(1.1)",
+                filter: "brightness(0.8)",
+              }}
+              transition="all 0.3s ease"
+            />
+          </Link>
+        </Flex>
+        <Text fontSize="sm" color={"#e87c79"} fontWeight={"bold"} >
+          &copy; 2024 CineSaddle. Curated with love by{" "}
+          <Link href="https://www.linkedin.com/in/neerajsingh19/" isExternal color="blue.400">
+            Neeraj Singh
+          </Link>
+        </Text>
+      </Box>
 
       <BackToTopButton />
+
+
     </Container>
   );
 };
