@@ -38,6 +38,7 @@ import {
         }}
         position="relative"
         p="4"
+ 
       >
         <Box position={"relative"} w={"150px"} cursor="pointer">
           <Link to={`/${type}/${item.id}`}>
@@ -55,7 +56,7 @@ import {
         <Box flex="1">
           <Link to={`/${type}/${item.id}`}>
             <Heading
-              fontSize={{ base: 'xl', md: "2xl" }}
+              fontSize={{ base: 'sm', md: "2xl" }}
               color="#e56c68"
               fontWeight="bold"
               noOfLines={1}
@@ -94,7 +95,7 @@ import {
     colorScheme="green"
     position={"absolute"}
     zIndex={"999"}
-    top="4"
+    top="9"
     right="4"
     onClick={handleRemoveClick}
     _hover={{
