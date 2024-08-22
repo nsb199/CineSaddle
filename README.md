@@ -49,10 +49,10 @@ Here are some screenshots showcasing the different pages and features of CineSad
 
 CineSaddle is fully responsive and offers a seamless experience on mobile devices. Check out the mobile views:
 
-- **Mobile Home Page**: ![CineSaddle Mobile Home Page](./screenshots/mobile-homepage.png)
-- **Mobile Sidebar**: ![CineSaddle Mobile Sidebar](./screenshots/mobile-sidebar.png)
-- **Mobile Watchlist Page**: ![CineSaddle Mobile Watchlist Page](./screenshots/mobile-watchlist.png)
-- **Mobile Movie Details Page**: ![CineSaddle Mobile Movie Details](./screenshots/mobile-movie-details.png)
+- **Mobile Home Page**: ![CineSaddle Mobile Home Page](./screenshots/mobile-homepage.jpg)
+- **Mobile Sidebar**: ![CineSaddle Mobile Sidebar](./screenshots/mobile-sidebar.jpg)
+- **Mobile Watchlist Page**: ![CineSaddle Mobile Watchlist Page](./screenshots/mobile-watchlist.jpg)
+- **Mobile Movie Details Page**: ![CineSaddle Mobile Movie Details](./screenshots/mobile-movie-details.jpg)
 
 ## 🤝 Contributing
 
