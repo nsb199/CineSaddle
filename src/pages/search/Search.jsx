@@ -16,7 +16,7 @@ import BackToTopButton from "../../utils/backtotop";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [tempSearchValue, setTempSearchValue] = useState('');
+  const [tempSearchValue, setTempSearchValue] = useState("");
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ const Search = () => {
       searchData(searchValue, activePage)
         .then((res) => {
           // Filter out items without a poster
-          const filteredData = res?.results.filter(item => item.poster_path);
+          const filteredData = res?.results.filter((item) => item.poster_path);
           setData(filteredData);
           setActivePage(res?.page);
           setTotalPages(res?.total_pages);
@@ -43,17 +43,17 @@ const Search = () => {
 
   useEffect(() => {
     if (tempSearchValue === "") {
-      setSearchValue(""); 
+      setSearchValue("");
       setData([]);
-      setHasSearched(false); 
+      setHasSearched(false);
     }
   }, [tempSearchValue]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     setSearchValue(tempSearchValue);
-    setActivePage(1); 
-    setHasSearched(true); 
+    setActivePage(1);
+    setHasSearched(true);
   };
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const Search = () => {
           color="#e56c68"
           borderColor="#e56c68"
           borderRadius="10px"
-          _placeholder={{ color: "#e56c68" }}
+          _placeholder={{ color: "#e56c68",  }}
           _focus={{
             borderColor: "#d14e4a",
             boxShadow: "0 0 0 1px #d14e4a",
@@ -108,7 +108,13 @@ const Search = () => {
       )}
 
       {hasSearched && data?.length === 0 && !isLoading && (
-        <Heading textAlign={"center"} color={"#e87c79"} as={"h3"} fontSize={"lg"} mt={"10"}>
+        <Heading
+          textAlign={"center"}
+          color={"#e87c79"}
+          as={"h3"}
+          fontSize={"lg"}
+          mt={"10"}
+        >
           No Results Found
         </Heading>
       )}

@@ -92,22 +92,26 @@ const CastDetail = () => {
       </Heading>
 
       <Grid
-        templateColumns={{
-          base: "1fr",
-          sm: "repeat(3,1fr)",
-          md: "repeat(4,1fr)",
-          lg: "repeat(5,1fr)",
-        }}
-        gap={"7"}
-      >
-        {loading
-          ? Array(10).fill(0).map((_, i) => (
-              <Skeleton height={"400px"} width={"100%"} borderRadius={"20px"} borderWidth={"1px"} key={i} />
-            ))
-          : castMovies.slice(0, 10).map((movie) => (
-              <CardComponent key={movie.id} item={movie} type="movie" />
-            ))}
-      </Grid>
+  templateColumns={{
+    base: "1fr",
+    sm: "repeat(3,1fr)",
+    md: "repeat(4,1fr)",
+    lg: "repeat(5,1fr)",
+  }}
+  gap={"7"}
+>
+  {loading
+    ? Array(10).fill(0).map((_, i) => (
+        <Skeleton height={"400px"} width={"100%"} borderRadius={"20px"} borderWidth={"1px"} key={i} />
+      ))
+    : castMovies
+        .filter((movie) => movie.poster_path)  // Only display movies with posters
+        .slice(0, 10)
+        .map((movie) => (
+          <CardComponent key={movie.id} item={movie} type="movie" />
+        ))}
+</Grid>
+
 
       <Heading
         as={"h2"}

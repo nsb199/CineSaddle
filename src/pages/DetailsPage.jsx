@@ -320,63 +320,65 @@ const DetailsPage = () => {
           Cast
         </Heading>
         <Flex
-          mt="5"
-          mb="10"
-          pb={"2"}
-          overflowX={"scroll"}
-          gap={"5"}
-          className="custom-scrollbar"
-          border="none"
-          outline="none"
+  mt="5"
+  mb="10"
+  pb={"2"}
+  overflowX={"scroll"}
+  gap={"5"}
+  className="custom-scrollbar"
+  border="none"
+  outline="none"
+>
+  {cast?.length === 0 && <Text>No cast found</Text>}
+  {cast
+    ?.filter((item) => item?.profile_path)  // Filter out cast members without an image
+    ?.map((item) => (
+      <Flex
+        key={item?.id}
+        direction={"column"}
+        alignItems={"center"}
+        minW={{ base: "120px", md: "150px" }}
+      >
+        <Box
+          position={"relative"}
+          transform={"scale(1)"}
+          _hover={{
+            transition:
+              "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+            transform: "scale(1.01)",
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.7)",
+          }}
+          borderRadius="20px"
+          overflow="hidden"
+          boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
         >
-          {cast?.length === 0 && <Text>No cast found</Text>}
-          {cast &&
-            cast?.map((item) => (
-              <Flex
-                key={item?.id}
-                direction={"column"}
-                alignItems={"center"}
-                minW={{ base: "120px", md: "150px" }}
-              >
-                <Box
-                  position={"relative"}
-                  transform={"scale(1)"}
-                  _hover={{
-                    transition:
-                      "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-                    transform: "scale(1.01)",
-                    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.7)",
-                  }}
-                  borderRadius="20px"
-                  overflow="hidden"
-                  boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
-                >
-                  <Link
-                    to={`/cast/${item?.id}`}
-                    onClick={() => handleCastClick(item?.id)}
-                  >
-                    <Image
-                      src={`${imagePath}/${item?.profile_path}`}
-                      w={"100%"}
-                      height={{ base: "180px", md: "225px" }}
-                      objectFit={"cover"}
-                      borderRadius={"20px"}
-                    />
-                  </Link>
-                </Box>
-                <Text
-                  mt="4"
-                  mb={"4"}
-                  fontSize={{ base: "xs", md: "sm" }}
-                  fontWeight={"bold"}
-                  color="#e87c79"
-                  textTransform={"uppercase"}
-                >
-                  {item?.name}
-                </Text>
-              </Flex>
-            ))}
-        </Flex>
+          <Link
+            to={`/cast/${item?.id}`}
+            onClick={() => handleCastClick(item?.id)}
+          >
+            <Image
+              src={`${imagePath}/${item?.profile_path}`}
+              w={"100%"}
+              height={{ base: "180px", md: "225px" }}
+              objectFit={"cover"}
+              borderRadius={"20px"}
+            />
+          </Link>
+        </Box>
+        <Text
+          mt="4"
+          mb={"4"}
+          fontSize={{ base: "xs", md: "sm" }}
+          fontWeight={"bold"}
+          color="#e87c79"
+          textTransform={"uppercase"}
+        >
+          {item?.name}
+        </Text>
+      </Flex>
+    ))}
+</Flex>
+
         <Heading
           as={"h2"}
           fontSize={{ base: "lg", md: "2xl" }} 
