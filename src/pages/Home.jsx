@@ -142,7 +142,7 @@ const Home = () => {
       >
         {data.map((item, i) => (
           loading ? (
-            <Skeleton height={"400px"} width={"100%"} borderRadius={"20px"} borderWidth={"1px"} key={i} startColor="#ef9c9d" endColor="#f3c1b4" />
+            <Skeleton height={{ base: "220px", md: "400px" }} width={"100%"} borderRadius={"20px"} borderWidth={"1px"} key={i} startColor="#ef9c9d" endColor="#f3c1b4" />
           ) : (
             <Box
               key={item?.id}
