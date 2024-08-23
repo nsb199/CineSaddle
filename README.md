@@ -42,9 +42,9 @@ Here are some screenshots showcasing the different pages and features of CineSad
 - **🔍 Discover Movies/Shows**:
   ![CineSaddle Movie Details](./screenshots/discover.png)
 - **📄 Movie Details Page**:
-  ![CineSaddle Movie Details](./screenshots/movie-details.png)
+  ![CineSaddle Movie Details](./screenshots/movies-details.png)
 - **🎥 Cast and Trailers**:
-  ![CineSaddle Movie Details](./screenshots/movie-details-2.png)
+  ![CineSaddle Movie Details](./screenshots/cast-details.png)
 - **🖼️ Download Wallpapers**:
   ![CineSaddle Movie Details](./screenshots/wallpapers.png)
 - **📋 Watchlist Page**:
