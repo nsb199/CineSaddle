@@ -140,26 +140,28 @@ const Movies = () => {
         ref={cardsRef}
       >
         {movies &&
-          movies.map((item, i) =>
-            isLoading ? (
-              <Skeleton
-              height={{ base: "220px", md: "400px" }}
-                width={"100%"}
-                borderRadius={"20px"}
-                borderWidth={"1px"}
-                key={i}
-                startColor="#ef9c9d"
-                endColor="#f3c1b4"
-              />
-            ) : (
-              <Box
-                key={item?.id}
-                className={`card-wrapper ${animate ? "card-appear" : ""}`}
-              >
-                <CardComponent item={item} type={"movie"} />
-              </Box>
-            )
-          )}
+  movies.filter((item) => item.poster_path) // Filter out movies without posters
+    .map((item, i) =>
+      isLoading ? (
+        <Skeleton
+          height={{ base: "220px", md: "400px" }}
+          width={"100%"}
+          borderRadius={"20px"}
+          borderWidth={"1px"}
+          key={i}
+          startColor="#ef9c9d"
+          endColor="#f3c1b4"
+        />
+      ) : (
+        <Box
+          key={item?.id}
+          className={`card-wrapper ${animate ? "card-appear" : ""}`}
+        >
+          <CardComponent item={item} type={"movie"} />
+        </Box>
+      )
+    )}
+
       </Grid>
 
       {/* Pagination */}
