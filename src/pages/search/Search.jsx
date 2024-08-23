@@ -30,7 +30,9 @@ const Search = () => {
       setIsLoading(true);
       searchData(searchValue, activePage)
         .then((res) => {
-          setData(res?.results);
+          // Filter out items without a poster
+          const filteredData = res?.results.filter(item => item.poster_path);
+          setData(filteredData);
           setActivePage(res?.page);
           setTotalPages(res?.total_pages);
         })
@@ -41,17 +43,17 @@ const Search = () => {
 
   useEffect(() => {
     if (tempSearchValue === "") {
-      setSearchValue(""); // Clear searchValue to reset data
+      setSearchValue(""); 
       setData([]);
-      setHasSearched(false); // Reset hasSearched state
+      setHasSearched(false); 
     }
   }, [tempSearchValue]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     setSearchValue(tempSearchValue);
-    setActivePage(1); // Reset to page 1 on search
-    setHasSearched(true); // Set hasSearched to true on search
+    setActivePage(1); 
+    setHasSearched(true); 
   };
 
   useEffect(() => {

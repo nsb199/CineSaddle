@@ -143,7 +143,7 @@ const Movies = () => {
           movies.map((item, i) =>
             isLoading ? (
               <Skeleton
-                height={"400px"}
+              height={{ base: "220px", md: "400px" }}
                 width={"100%"}
                 borderRadius={"20px"}
                 borderWidth={"1px"}
