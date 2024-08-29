@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Container,
@@ -8,11 +8,13 @@ import {
   Input,
   Skeleton,
   Spinner,
+  IconButton,
 } from "@chakra-ui/react";
 import { searchData } from "../../services/api";
 import CardComponent from "../../components/CardComponent";
 import PaginationComponent from "../../components/PaginationComponent";
 import BackToTopButton from "../../utils/backtotop";
+import { FaMicrophone } from "react-icons/fa";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -22,8 +24,14 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const cardsRef = useRef(null);
-  const [animate, setAnimate] = useState(false);
+  const recognitionRef = useRef(null);
+
+  // Initialize audio objects for sound effects
+  const pressSound = useRef(new Audio('/sounds/click-sound.mp3'));
+  const stopSound = useRef(new Audio('/sounds/stop-sound.mp3'));
+  const noSpeechSound = useRef(new Audio('/sounds/no-speech-sound.mp3'));
 
   useEffect(() => {
     if (searchValue) {
@@ -63,7 +71,52 @@ const Search = () => {
         child.style.animationDelay = `${index * 0.1}s`;
       });
     }
-  }, [data, animate]);
+  }, [data]);
+
+  useEffect(() => {
+    // Initialize the Web Speech API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+        pressSound.current.play(); // Play sound when starting to listen
+      };
+      recognition.onend = () => {
+        setIsListening(false);
+        if (tempSearchValue === "") {
+          noSpeechSound.current.play(); // Play sound when no speech is detected
+        } else {
+          stopSound.current.play(); // Play sound when stopping listening
+        }
+      };
+      recognition.onerror = (event) => console.error("Speech Recognition Error:", event);
+      recognition.onresult = (event) => {
+        const speechResult = event.results[0][0].transcript;
+        setTempSearchValue(speechResult);
+        setSearchValue(speechResult);
+        setHasSearched(true);
+      };
+
+      recognitionRef.current = recognition;
+    } else {
+      console.error("Speech Recognition is not supported in this browser.");
+    }
+  }, [tempSearchValue]);
+
+  const handleVoiceSearch = () => {
+    if (recognitionRef.current) {
+      if (isListening) {
+        recognitionRef.current.stop();
+      } else {
+        recognitionRef.current.start();
+      }
+    }
+  };
 
   return (
     <Container maxW={"container.xl"}>
@@ -78,27 +131,50 @@ const Search = () => {
         </Heading>
       </Flex>
 
-      <form onSubmit={handleSearch}>
-        <Input
-          placeholder="Search Movies, TV Show..."
-          value={tempSearchValue}
-          onChange={(e) => setTempSearchValue(e.target.value)}
+      <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center" }}>
+        <Flex
+          alignItems="center"
           bg="#f6e9ca"
-          color="#e56c68"
-          borderColor="#e56c68"
           borderRadius="10px"
-          _placeholder={{ color: "#e56c68",  }}
-          _focus={{
-            borderColor: "#d14e4a",
-            boxShadow: "0 0 0 1px #d14e4a",
-            transition: "all 0.3s ease",
-          }}
-          _hover={{
-            borderColor: "#d14e4a",
-            transition: "all 0.3s ease",
-          }}
-          transition="all 0.3s ease"
-        />
+          border="2px solid"
+          borderColor="#e56c68"
+          w="100%"
+          pr={2}
+         
+        >
+          <Input
+            placeholder="Search Movies, TV Show..."
+            value={tempSearchValue}
+            onChange={(e) => setTempSearchValue(e.target.value)}
+            bg="#f6e9ca"
+            color="#e56c68"
+            border="none"
+            borderRadius="10px 0 0 10px"
+            _placeholder={{ color: "#e56c68" }}
+            _focus={{
+              boxShadow: "none",
+            }}
+          />
+          <IconButton
+            icon={<FaMicrophone />}
+            onClick={handleVoiceSearch}
+            aria-label="Voice Search"
+            color={isListening ? "#f6e9ca" : "#e56c68"}
+            bg={isListening ? "#e56c68" : "transparent"}
+            borderRadius="50%"
+            _hover={{ 
+              bg: "#e56c68",
+              color: "#f6e9ca"
+            }}
+            _active={{ 
+              bg: isListening ? "#d14e4a" : "#e56c68",
+              color: "#f6e9ca"
+            }}
+            transition="background-color 0.3s ease, color 0.3s ease"
+            className={isListening ? "pulsing" : ""}
+            ml={2}
+          />
+        </Flex>
       </form>
 
       {isLoading && (
@@ -147,7 +223,7 @@ const Search = () => {
             ) : (
               <Box
                 key={item?.id}
-                className={`card-wrapper ${animate ? "card-appear" : ""}`}
+                className={`card-wrapper`}
               >
                 <CardComponent item={item} type={item?.media_type} />
               </Box>
