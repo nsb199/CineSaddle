@@ -267,73 +267,109 @@ const Navbar = () => {
               alignItems="center" 
             />
 
-            <Drawer isOpen={isOpen} placement="right"  onClose={onClose}>
-              <DrawerOverlay />
-              <DrawerContent bg={"#e6736e"} borderRadius={"20px"} border={"1px solid #f6e9ca"} maxWidth={"61%"} mr={"7px"} >
-                <DrawerCloseButton fontSize={"md"} color={"#f6e9ca"} mt={"2"} mr={"1"} />
-                <DrawerHeader>
-                  {user ? (
-                    <Flex alignItems="center" gap="2">
-                      <Avatar
-                        bg={"red.500"}
-                        color={"white"}
-                        size={"md"}
-                        name={user?.displayName}
-                        src={user?.photoURL}
-                      />
-                      <Box fontSize={"md"} fontWeight={"bold"} ml={"2"}>
-                        {user?.displayName || user?.email}
-                      </Box>
-                    </Flex>
-                  ) : (
-                    <Avatar
-                      size={"md"}
-                      bg={"#eb8c8b"}
-                      border={"2px solid  "}
-                      as="button"
-                      onClick={handleGoogleLogin}
-                    />
-                  )}
-                </DrawerHeader>
+<Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+  <DrawerOverlay />
+  <DrawerContent
+    bg={"#e6736e"}
+    borderRadius={"20px"}
+    border={"1px solid #f6e9ca"}
+    maxWidth={"61%"}
+    height={"auto"} // Adjust this as needed or use a specific height
+    maxHeight={"400px"} // Set a maximum height to control cropping
+    mr={"7px"}
+    pt={"10px"} // Padding from the top
+    pb={"10px"} // Padding from the bottom
+    overflow={"auto"} // Handle overflowing content
+    marginTop={"20vh"} // Adjust this value as needed
+  >
+    <DrawerCloseButton fontSize={"md"} color={"#f6e9ca"} mt={"2"} mr={"1"} />
+    <DrawerHeader>
+      {user ? (
+        <Flex alignItems="center" gap="2">
+          <Avatar
+            bg={"red.500"}
+            color={"white"}
+            size={"md"}
+            name={user?.displayName}
+            src={user?.photoURL}
+          />
+          <Box fontSize={"md"} fontWeight={"bold"} ml={"2"}>
+            {user?.displayName || user?.email}
+          </Box>
+        </Flex>
+      ) : (
+        <Avatar
+          size={"md"}
+          bg={"#eb8c8b"}
+          border={"2px solid "}
+          as="button"
+          onClick={handleGoogleLogin}
+        />
+      )}
+    </DrawerHeader>
 
-                <DrawerBody>
-                  <Flex
-                    flexDirection={"column"}
-                    gap={"25"}
-                    fontSize={"md"}
-                    fontWeight={"semibold"}
-                    onClick={onClose}
-                  >
-                    <Link to="/">Home</Link>
-                    <Link to="/movies">Movies</Link>
-                    <Link to="/shows">TV Shows</Link>
-                    {user && (
-                      <>
-                        <Link to="/watchlist">Watchlist</Link>
-                        <Button
-                          variant={"solid"}
-                          backgroundColor="#f6e9ca" 
-                          color="#e87c79"
-                          onClick={logout}
-                          borderRadius={"20px"}
-                          fontSize={"md"}
-                          fontWeight={"bold"}
-                          border="2px solid white" 
-                          boxShadow="0 4px 6px rgba(0, 0, 0, 0.4)"
-                          transition="transform 0.3s ease, box-shadow 0.3s ease"
-                          _hover={{
-                            transform: "scale(1.05)",
-                            boxShadow: "0 6px 8px rgba(0, 0, 0, 0.5)",
-                          }}
-                        >
-                          Logout
-                        </Button>
-                      </>
-                    )}
-                  </Flex>
-                </DrawerBody>
-              </DrawerContent>
-            </Drawer>
+    <DrawerBody>
+      <Flex
+        flexDirection={"column"}
+        gap={"25"}
+        fontSize={"md"}
+        fontWeight={"semibold"}
+        onClick={onClose}
+      >
+        <Link to="/">Home</Link>
+        <Link to="/movies">Movies</Link>
+        <Link to="/shows">TV Shows</Link>
+        {user && (
+          <>
+            <Link to="/watchlist">Watchlist</Link>
+            <Button
+              variant={"solid"}
+              backgroundColor="#f6e9ca"
+              color="#e87c79"
+              onClick={logout}
+              borderRadius={"20px"}
+              fontSize={"md"}
+              fontWeight={"bold"}
+              border="2px solid white"
+              boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)" // Adjust shadow for smoother look
+              transition="transform 0.3s ease, box-shadow 0.3s ease"
+              _hover={{
+                transform: "scale(1.05)",
+                boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)", // Adjust shadow on hover
+              }}
+            >
+              Logout
+            </Button>
+          </>
+        )}
+        {!user && (
+          <Button
+            variant={"solid"}
+            backgroundColor="#f6e9ca"
+            color="#e87c79"
+            onClick={handleGoogleLogin}
+            borderRadius={"20px"}
+            fontSize={"md"}
+            fontWeight={"bold"}
+            border="2px solid white"
+            boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)" // Adjust shadow for smoother look
+            transition="transform 0.3s ease, box-shadow 0.3s ease"
+            _hover={{
+              transform: "scale(1.05)",
+              boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)", // Adjust shadow on hover
+            }}
+          >
+            Login
+          </Button>
+        )}
+      </Flex>
+    </DrawerBody>
+  </DrawerContent>
+    </Drawer>
+
+
+
+
           </Flex>
         </Flex>
       </Container>

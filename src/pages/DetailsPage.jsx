@@ -180,12 +180,16 @@ const DetailsPage = () => {
         position={"relative"}
         border={"3px solid #e87c79"}
         borderRadius={"34px"}
+        overflow={"hidden"} 
+        
       >
         <Container maxW={"container.xl"}>
           <Flex
             alignItems={"center"}
             gap={"10"}
+            
             flexDirection={{ base: "column", md: "row" }}
+            
           >
             <Image
               height={{ base: "300px", md: "400px", lg: "450px" }}
@@ -194,7 +198,7 @@ const DetailsPage = () => {
               border={"3px solid #f6e9ca"}
               boxShadow={"0 4px 8px rgba(246, 233, 202, 0.3)"}
             />
-            <Box>
+            <Box  >
               <Heading fontSize={"3xl"} color={"rgba(246, 233, 202, 1)"}>
                 {title}{" "}
                 <Text as={"span"} fontWeight={"normal"} color={"gray.400"}>
