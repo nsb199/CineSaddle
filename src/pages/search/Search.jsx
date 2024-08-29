@@ -161,7 +161,7 @@ const Search = () => {
         <Flex
           alignItems="center"
           bg="#f6e9ca"
-          borderRadius="10px"
+          borderRadius="50px"
           border="2px solid"
           borderColor="#e56c68"
           w="100%"
@@ -183,12 +183,13 @@ const Search = () => {
             }}
           />
           <IconButton
-            icon={<Search2Icon />}
+            icon={<Search2Icon  />}
             onClick={handleSearch}
             aria-label="Search"
             color="#e56c68"
             bg="transparent"
             borderRadius="50%"
+            
             _hover={{ 
               bg: "#e56c68",
               color: "#f6e9ca"
@@ -200,13 +201,16 @@ const Search = () => {
             transition="background-color 0.3s ease, color 0.3s ease"
             
           />
-          <IconButton
-            icon={<FaMicrophone />}
+          
+        </Flex>
+        <IconButton
+            icon={<FaMicrophone size={"19px"}  />}
             onClick={handleVoiceSearch}
             aria-label="Voice Search"
-            color={isListening ? "#f6e9ca" : "#e56c68"}
-            bg={isListening ? "#e56c68" : "transparent"}
+            color={isListening ? "#f6e9ca" : "#f6e9ca"}
+            bg={isListening ? "#e56c68" : "#ec8784"}
             borderRadius="50%"
+            
             _hover={{ 
               bg: "#e56c68",
               color: "#f6e9ca"
@@ -219,7 +223,7 @@ const Search = () => {
             className={isListening ? "pulsing-wobbling" : ""}
             ml={2}
           />
-        </Flex>
+
       </form>
 
       {isLoading && (
