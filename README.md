@@ -14,6 +14,8 @@ Welcome to **CineSaddle**, the ultimate destination for movie enthusiasts! Wheth
 
 - **🎬 Explore and Add to Watchlist**: Browse through an extensive collection of movies and TV shows, watch trailers, get recommendations, and easily add them to your watchlist for later viewing.
 
+- **🎙️ Voice Search Feature**: Use voice commands to search for movies and TV shows! Simply click the microphone icon to start voice search and have your queries recognized and processed in real-time.
+
 - **✨ Smooth Scrolling and Animations**: Experience the joy of browsing with smooth scrolling animations that enhance the visual experience as you navigate through the site.
 
 ## 🚀 Getting Started

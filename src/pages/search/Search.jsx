@@ -140,7 +140,6 @@ const Search = () => {
           borderColor="#e56c68"
           w="100%"
           pr={2}
-         
         >
           <Input
             placeholder="Search Movies, TV Show..."
