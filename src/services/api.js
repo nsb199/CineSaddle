@@ -86,3 +86,15 @@ export const fetchTvImages = async (id) => {
     return res?.data;
 };
 
+// LATEST RELEASES - MOVIES
+export const fetchLatestMovies = async () => {
+    const res = await axios.get(`${baseUrl}/movie/now_playing?api_key=${apiKey}&language=en-US`);
+    return res?.data?.results;
+};
+
+// LATEST RELEASES - TV SHOWS
+export const fetchLatestTvShows = async () => {
+    const res = await axios.get(`${baseUrl}/tv/airing_today?api_key=${apiKey}&language=en-US`);
+    return res?.data?.results;
+};
+

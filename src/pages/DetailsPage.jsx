@@ -334,23 +334,26 @@ const DetailsPage = () => {
     ?.filter((item) => item?.profile_path)  // Filter out cast members without an image
     ?.map((item) => (
       <Flex
-        key={item?.id}
-        direction={"column"}
-        alignItems={"center"}
-        minW={{ base: "120px", md: "150px" }}
+      key={item?.id}
+      direction={"column"}
+      alignItems={"center"}
+      minW={{ base: "120px", md: "150px" }}
+      
+      
       >
         <Box
           position={"relative"}
           transform={"scale(1)"}
           _hover={{
-            transition:
-              "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-            transform: "scale(1.01)",
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.7)",
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
+                    transform: "scale(1.01)",
+                    transition: "box-shadow 0.3s ease, transform 0.3s ease",
           }}
           borderRadius="20px"
           overflow="hidden"
           boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
+          
+          
         >
           <Link
             to={`/cast/${item?.id}`}

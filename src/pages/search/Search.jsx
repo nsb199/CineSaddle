@@ -10,11 +10,12 @@ import {
   Spinner,
   IconButton,
 } from "@chakra-ui/react";
+import { Search2Icon } from "@chakra-ui/icons";
+import { FaMicrophone } from "react-icons/fa";
 import { searchData } from "../../services/api";
 import CardComponent from "../../components/CardComponent";
 import PaginationComponent from "../../components/PaginationComponent";
 import BackToTopButton from "../../utils/backtotop";
-import { FaMicrophone } from "react-icons/fa";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -34,15 +35,37 @@ const Search = () => {
   const noSpeechSound = useRef(new Audio('/sounds/no-speech-sound.mp3'));
 
   useEffect(() => {
+    // Retrieve saved search data from localStorage
+    const savedSearchTerm = localStorage.getItem('searchTerm');
+    const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
+    const savedActivePage = parseInt(localStorage.getItem('activePage'), 10);
+    const savedTotalPages = parseInt(localStorage.getItem('totalPages'), 10);
+
+    if (savedSearchTerm) {
+      setSearchValue(savedSearchTerm);
+      setTempSearchValue(savedSearchTerm);
+      setData(savedSearchResults || []);
+      setActivePage(savedActivePage || 1);
+      setTotalPages(savedTotalPages || 1);
+      setHasSearched(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (searchValue) {
       setIsLoading(true);
       searchData(searchValue, activePage)
         .then((res) => {
-          // Filter out items without a poster
           const filteredData = res?.results.filter((item) => item.poster_path);
           setData(filteredData);
           setActivePage(res?.page);
           setTotalPages(res?.total_pages);
+
+          // Save search results and term to localStorage
+          localStorage.setItem('searchTerm', searchValue);
+          localStorage.setItem('searchResults', JSON.stringify(filteredData));
+          localStorage.setItem('activePage', activePage);
+          localStorage.setItem('totalPages', totalPages);
         })
         .catch((err) => console.log(err, "err"))
         .finally(() => setIsLoading(false));
@@ -54,6 +77,10 @@ const Search = () => {
       setSearchValue("");
       setData([]);
       setHasSearched(false);
+      localStorage.removeItem('searchTerm');
+      localStorage.removeItem('searchResults');
+      localStorage.removeItem('activePage');
+      localStorage.removeItem('totalPages');
     }
   }, [tempSearchValue]);
 
@@ -74,7 +101,6 @@ const Search = () => {
   }, [data]);
 
   useEffect(() => {
-    // Initialize the Web Speech API
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
@@ -141,8 +167,8 @@ const Search = () => {
           w="100%"
           p={"1"}
           pr={"1"}
-          
         >
+          
           <Input
             placeholder="Search Movies, TV Show..."
             value={tempSearchValue}
@@ -157,25 +183,42 @@ const Search = () => {
             }}
           />
           <IconButton
-  icon={<FaMicrophone />}
-  onClick={handleVoiceSearch}
-  aria-label="Voice Search"
-  color={isListening ? "#f6e9ca" : "#e56c68"}
-  bg={isListening ? "#e56c68" : "transparent"}
-  borderRadius="50%"
-  _hover={{ 
-    bg: "#e56c68",
-    color: "#f6e9ca"
-  }}
-  _active={{ 
-    bg: isListening ? "#d14e4a" : "#e56c68",
-    color: "#f6e9ca"
-  }}
-  transition="background-color 0.3s ease, color 0.3s ease"
-  className={isListening ? "pulsing-wobbling" : ""}
-  ml={2}
-/>
-
+            icon={<Search2Icon />}
+            onClick={handleSearch}
+            aria-label="Search"
+            color="#e56c68"
+            bg="transparent"
+            borderRadius="50%"
+            _hover={{ 
+              bg: "#e56c68",
+              color: "#f6e9ca"
+            }}
+            _active={{ 
+              bg: "#d14e4a",
+              color: "#f6e9ca"
+            }}
+            transition="background-color 0.3s ease, color 0.3s ease"
+            
+          />
+          <IconButton
+            icon={<FaMicrophone />}
+            onClick={handleVoiceSearch}
+            aria-label="Voice Search"
+            color={isListening ? "#f6e9ca" : "#e56c68"}
+            bg={isListening ? "#e56c68" : "transparent"}
+            borderRadius="50%"
+            _hover={{ 
+              bg: "#e56c68",
+              color: "#f6e9ca"
+            }}
+            _active={{ 
+              bg: isListening ? "#d14e4a" : "#e56c68",
+              color: "#f6e9ca"
+            }}
+            transition="background-color 0.3s ease, color 0.3s ease"
+            className={isListening ? "pulsing-wobbling" : ""}
+            ml={2}
+          />
         </Flex>
       </form>
 
@@ -235,8 +278,8 @@ const Search = () => {
 
       {data?.length > 0 && !isLoading && (
         <PaginationComponent
-          activePage={activePage}
           totalPages={totalPages}
+          activePage={activePage}
           setActivePage={setActivePage}
         />
       )}
