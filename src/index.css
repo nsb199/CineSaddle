@@ -1,3 +1,9 @@
+body {
+  overflow-y: scroll; /* Always show vertical scrollbar */
+}
+
+
+
 .custom-scrollbar {
   overflow-x: scroll;
   scrollbar-width: thin; /* For Firefox */
@@ -30,6 +36,10 @@
 }
 
 
+
+
+
+
 /* Styles for card wrapper */
 .card-wrapper {
   opacity: 0;
@@ -38,6 +48,7 @@
   animation: fadeInUp 0.5s forwards; /* Ensure animation applies */
   will-change: opacity, transform; /* Optimize performance */
 }
+
 
 /* Keyframes for animation */
 @keyframes fadeInUp {
@@ -121,4 +132,34 @@
 
 .pulsing-wobbling {
   animation: pulsing 1.5s infinite, wobble 1s ease-in-out;
+}
+
+
+
+
+
+
+
+
+
+
+/* Custom Scrollbar Styles for Webkit Browsers (Chrome, Safari) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #e56c68; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners */
+  border: 2px solid #f3f3f3; /* Border around the thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Background of the track */
+}
+
+/* Custom Scrollbar Styles for Firefox */
+html {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #e56c68 transparent; /* Thumb color and track color */
 }
