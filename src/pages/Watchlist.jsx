@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 import { useFirestore } from "../services/firestore";
 import { useAuth } from "../context/useAuth";
-import { Container, Flex, Grid, Heading, Spinner } from "@chakra-ui/react";
+import { Container, Flex, Grid, Heading, Spinner, Box } from "@chakra-ui/react";
 import WatchlistCard from "../components/WatchlistCard";
 
 const Watchlist = () => {
   const { getWatchlist } = useFirestore();
   const { user } = useAuth();
   const [watchlist, setWatchlist] = useState([]);
+  const [filteredWatchlist, setFilteredWatchlist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState("all"); // 'all', 'movie', or 'tv'
 
   useEffect(() => {
     if (user?.uid) {
       getWatchlist(user?.uid)
         .then((data) => {
           setWatchlist(data);
-          console.log(data, "data");
+          setFilteredWatchlist(data);
         })
         .catch((err) => {
           console.log(err, "error");
@@ -25,6 +27,14 @@ const Watchlist = () => {
         });
     }
   }, [user?.uid, getWatchlist]);
+
+  useEffect(() => {
+    if (filter === "all") {
+      setFilteredWatchlist(watchlist);
+    } else {
+      setFilteredWatchlist(watchlist.filter(item => item.type === filter));
+    }
+  }, [filter, watchlist]);
 
   return (
     <Container maxW={"container.xl"}>
@@ -37,8 +47,105 @@ const Watchlist = () => {
         >
           Your Watchlist
         </Heading>
+
+        <Flex
+          alignItems="center"
+          gap={{ base: "1", sm: "2" }}
+          border="1px solid transparent"
+          borderRadius="20px"
+          boxShadow="0 0 1px #e87c79, 0 0 0 1px #e87c79"
+          _hover={{ boxShadow: "0 0 4px 2px #e87c79" }}
+          transition="background-color 0.61s ease, box-shadow 0.3s ease"
+          position="relative"
+          mb={4}
+        >
+          <Box
+            as="button"
+            px={{ base: "2", sm: "3" }}
+            py={{ base: "0.5", sm: "1" }}
+            borderRadius="20px"
+            color="#8e6f6f"
+            fontWeight="semibold"
+            fontSize={{ base: "sm", sm: "md" }}
+            bg={filter === 'all' ? "#f3c1b4" : ""}
+            onClick={() => setFilter("all")}
+            transition="background-color 0.61s ease, box-shadow 0.3s ease"
+            position="relative"
+            overflow="hidden"
+          >
+            All
+            <Box
+              position="absolute"
+              bottom="0"
+              left="0"
+              width="100%"
+              height="100%"
+              bg="#f3c1b4"
+              borderRadius="20px"
+              zIndex="-1"
+              transition="transform 0.61s ease"
+              transform={filter === 'all' ? "translateX(0)" : "translateX(100%)"}
+            />
+          </Box>
+          <Box
+            as="button"
+            px={{ base: "2", sm: "3" }}
+            py={{ base: "0.5", sm: "1" }}
+            borderRadius="20px"
+            color="#8e6f6f"
+            fontWeight="semibold"
+            fontSize={{ base: "sm", sm: "md" }}
+            bg={filter === 'movie' ? "#f3c1b4" : ""}
+            onClick={() => setFilter("movie")}
+            transition="background-color 0.61s ease, box-shadow 0.3s ease"
+            position="relative"
+            overflow="hidden"
+          >
+            Movies
+            <Box
+              position="absolute"
+              bottom="0"
+              left="0"
+              width="100%"
+              height="100%"
+              bg="#f3c1b4"
+              borderRadius="20px"
+              zIndex="-1"
+              transition="transform 0.61s ease"
+              transform={filter === 'movie' ? "translateX(0)" : "translateX(100%)"}
+            />
+          </Box>
+          <Box
+            as="button"
+            px={{ base: "2", sm: "3" }}
+            py={{ base: "0.5", sm: "1" }}
+            borderRadius="20px"
+            color="#8e6f6f"
+            fontWeight="semibold"
+            fontSize={{ base: "sm", sm: "md" }}
+            bg={filter === 'tv' ? "#f3c1b4" : ""}
+            onClick={() => setFilter("tv")}
+            transition="background-color 0.61s ease, box-shadow 0.3s ease"
+            position="relative"
+            overflow="hidden"
+          >
+            TV Shows
+            <Box
+              position="absolute"
+              bottom="0"
+              left="0"
+              width="100%"
+              height="100%"
+              bg="#f3c1b4"
+              borderRadius="20px"
+              zIndex="-1"
+              transition="transform 0.61s ease"
+              transform={filter === 'tv' ? "translateX(0)" : "translateX(-100%)"}
+            />
+          </Box>
+        </Flex>
       </Flex>
-     
+
       {isLoading && (
         <Flex
           justify={"center"}
@@ -49,7 +156,7 @@ const Watchlist = () => {
           <Spinner size={"xl"} color="#e56c68" />
         </Flex>
       )}
-      {!isLoading && watchlist?.length === 0 && (
+      {!isLoading && filteredWatchlist.length === 0 && (
         <Flex
           justify={"center"}
           alignItems={"center"}
@@ -61,14 +168,14 @@ const Watchlist = () => {
           </Heading>
         </Flex>
       )}
-      {!isLoading && watchlist?.length > 0 && (
+      {!isLoading && filteredWatchlist.length > 0 && (
         <Grid
           templateColumns={{
             base: "1fr",
           }}
           gap={"5"}
         >
-          {watchlist?.map((item) => (
+          {filteredWatchlist?.map((item) => (
             <WatchlistCard
               key={item?.id}
               item={item}
