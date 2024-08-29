@@ -190,6 +190,7 @@ const Search = () => {
             bg="transparent"
             borderRadius="50%"
             
+            
             _hover={{ 
               bg: "#e56c68",
               color: "#f6e9ca"
@@ -204,13 +205,14 @@ const Search = () => {
           
         </Flex>
         <IconButton
-            icon={<FaMicrophone size={"19px"}  />}
+            icon={<FaMicrophone size={"18px"}  />}
             onClick={handleVoiceSearch}
             aria-label="Voice Search"
-            color={isListening ? "#f6e9ca" : "#f6e9ca"}
-            bg={isListening ? "#e56c68" : "#ec8784"}
+            color={isListening ? "#f6e9ca" : "#e56c68"}
+            bg={isListening ? "#e56c68" : "#transparent"}
             borderRadius="50%"
-            
+            border="2px solid #e56c68"
+            size="lg"
             _hover={{ 
               bg: "#e56c68",
               color: "#f6e9ca"
