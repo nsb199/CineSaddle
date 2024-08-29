@@ -139,7 +139,9 @@ const Search = () => {
           border="2px solid"
           borderColor="#e56c68"
           w="100%"
-          pr={2}
+          p={"1"}
+          pr={"1"}
+          
         >
           <Input
             placeholder="Search Movies, TV Show..."
@@ -155,24 +157,25 @@ const Search = () => {
             }}
           />
           <IconButton
-            icon={<FaMicrophone />}
-            onClick={handleVoiceSearch}
-            aria-label="Voice Search"
-            color={isListening ? "#f6e9ca" : "#e56c68"}
-            bg={isListening ? "#e56c68" : "transparent"}
-            borderRadius="50%"
-            _hover={{ 
-              bg: "#e56c68",
-              color: "#f6e9ca"
-            }}
-            _active={{ 
-              bg: isListening ? "#d14e4a" : "#e56c68",
-              color: "#f6e9ca"
-            }}
-            transition="background-color 0.3s ease, color 0.3s ease"
-            className={isListening ? "pulsing" : ""}
-            ml={2}
-          />
+  icon={<FaMicrophone />}
+  onClick={handleVoiceSearch}
+  aria-label="Voice Search"
+  color={isListening ? "#f6e9ca" : "#e56c68"}
+  bg={isListening ? "#e56c68" : "transparent"}
+  borderRadius="50%"
+  _hover={{ 
+    bg: "#e56c68",
+    color: "#f6e9ca"
+  }}
+  _active={{ 
+    bg: isListening ? "#d14e4a" : "#e56c68",
+    color: "#f6e9ca"
+  }}
+  transition="background-color 0.3s ease, color 0.3s ease"
+  className={isListening ? "pulsing-wobbling" : ""}
+  ml={2}
+/>
+
         </Flex>
       </form>
 

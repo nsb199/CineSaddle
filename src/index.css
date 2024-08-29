@@ -72,11 +72,6 @@
 
 
 /* Pulsing effect for the microphone icon */
-.pulsing {
-  position: relative;
-  animation: pulsing 1.5s infinite;
-}
-
 @keyframes pulsing {
   0% {
     transform: scale(1);
@@ -90,4 +85,40 @@
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(229, 108, 104, 0);
   }
+}
+
+@keyframes wobble {
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(-15deg);
+  }
+  30% {
+    transform: rotate(10deg);
+  }
+  45% {
+    transform: rotate(-5deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.pulsing {
+  animation: pulsing 1.5s infinite;
+}
+
+.wobbling {
+  animation: wobble 1s ease-in-out;
+}
+
+.pulsing-wobbling {
+  animation: pulsing 1.5s infinite, wobble 1s ease-in-out;
 }
