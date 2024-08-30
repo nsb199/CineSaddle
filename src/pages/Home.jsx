@@ -160,7 +160,7 @@ const Home = () => {
           onClick={() => navigate('/search')}
           colorScheme="teal"
           size="lg"
-          borderRadius="20px"
+          borderRadius="30px"
           px="8"
           py="4"
           bg="#e56c68"
