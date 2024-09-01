@@ -55,129 +55,146 @@ const Watchlist = () => {
 
   return (
     <Container maxW={"container.xl"}>
+      
       <Flex
-        direction={{ base: "column", md: "row" }}
-        alignItems="baseline"
-        gap={{ base: "4", md: "5" }}
-        my={{ base: "4", md: "7" }}
-      >
-        <Heading
-          as="h2"
-          fontSize={{ base: "lg", sm: "xl" }}
-          textTransform="uppercase"
-          color="#e56c68"
-        >
-          Your Watchlist
-        </Heading>
+  direction={{ base: "column", md: "row" }}
+  alignItems={{ base: "center", md: "center" }} // Align items to baseline on small screens, center on larger screens
+  gap={{ base: "4", md: "5" }}
+  my={{ base: "5", md: "9" }}
+  position="relative"
+>
+  <Heading
+    as="h2"
+    fontSize={{ base: "xl", sm: "2xl" }}
+    textTransform="uppercase"
+    color="#e56c68"
+    mb={{ base: "0", md: "0" }} // Margin bottom on smaller screens
+  >
+    Your Watchlist
+  </Heading>
 
-        <Flex
-          alignItems="center"
-          gap={{ base: "1", sm: "2" }}
-          border="1px solid transparent"
-          borderRadius="20px"
-          boxShadow="0 0 1px #e87c79, 0 0 0 1px #e87c79"
-          _hover={{ boxShadow: "0 0 4px 2px #e87c79" }}
-          transition="background-color 0.61s ease, box-shadow 0.3s ease"
-          position="relative"
-          mb={{ base: "4", md: "0" }}
-          overflowX="auto"
-        >
-          <Box
-            as="button"
-            px={{ base: "2", sm: "3" }}
-            py={{ base: "0.5", sm: "1" }}
-            borderRadius="20px"
-            color="#8e6f6f"
-            fontWeight="semibold"
-            fontSize={{ base: "sm", sm: "md" }}
-            bg={filter === "all" ? "#f3c1b4" : ""}
-            onClick={() => setFilter("all")}
-            transition="background-color 0.61s ease, box-shadow 0.3s ease"
-            position="relative"
-            overflow="hidden"
-          >
-            All
-            <Box
-              position="absolute"
-              bottom="0"
-              left="0"
-              width="100%"
-              height="100%"
-              bg="#f3c1b4"
-              borderRadius="20px"
-              zIndex="-1"
-              transition="transform 0.61s ease"
-              transform={filter === "all" ? "translateX(0)" : "translateX(100%)"}
-            />
-          </Box>
-          <Box
-            as="button"
-            px={{ base: "2", sm: "3" }}
-            py={{ base: "0.5", sm: "1" }}
-            borderRadius="20px"
-            color="#8e6f6f"
-            fontWeight="semibold"
-            fontSize={{ base: "sm", sm: "md" }}
-            bg={filter === "movie" ? "#f3c1b4" : ""}
-            onClick={() => setFilter("movie")}
-            transition="background-color 0.61s ease, box-shadow 0.3s ease"
-            position="relative"
-            overflow="hidden"
-          >
-            Movies
-            <Box
-              position="absolute"
-              bottom="0"
-              left="0"
-              width="100%"
-              height="100%"
-              bg="#f3c1b4"
-              borderRadius="20px"
-              zIndex="-1"
-              transition="transform 0.61s ease"
-              transform={filter === "movie" ? "translateX(0)" : "translateX(100%)"}
-            />
-          </Box>
-          <Box
-            as="button"
-            px={{ base: "2", sm: "3" }}
-            py={{ base: "0.5", sm: "1" }}
-            borderRadius="20px"
-            color="#8e6f6f"
-            fontWeight="semibold"
-            fontSize={{ base: "sm", sm: "md" }}
-            bg={filter === "tv" ? "#f3c1b4" : ""}
-            onClick={() => setFilter("tv")}
-            transition="background-color 0.61s ease, box-shadow 0.3s ease"
-            position="relative"
-            overflow="hidden"
-          >
-            TV Shows
-            <Box
-              position="absolute"
-              bottom="0"
-              left="0"
-              width="100%"
-              height="100%"
-              bg="#f3c1b4"
-              borderRadius="20px"
-              zIndex="-1"
-              transition="transform 0.61s ease"
-              transform={filter === "tv" ? "translateX(0)" : "translateX(-100%)"}
-            />
-          </Box>
-        </Flex>
-      </Flex>
+  <Flex
+    alignItems="center"
+    gap={{ base: "1", sm: "2" }}
+    border="1px solid transparent"
+    borderRadius="20px"
+    boxShadow="0 0 1px #e87c79, 0 0 0 1px #e87c79"
+    _hover={{ boxShadow: "0 0 4px 2px #e87c79" }}
+    transition="background-color 0.61s ease, box-shadow 0.3s ease"
+    position={{ base: "static", md: "absolute" }} // Static positioning on small screens, absolute on larger screens
+    left={{ base: "auto", md: "50%" }} // Center horizontally on larger screens
+    transform={{ base: "none", md: "translateX(-50%)" }} // Center horizontally on larger screens
+    overflowX="auto"
+    mb={{ base: "0", md: "0" }} // Margin bottom on smaller screens
+  >
+    <Box
+      as="button"
+      px={{ base: "2", sm: "3" }}
+      py={{ base: "0.5", sm: "1" }}
+      borderRadius="20px"
+      color="#8e6f6f"
+      fontWeight="semibold"
+      fontSize={{ base: "sm", sm: "md" }}
+      bg={filter === "all" ? "#f3c1b4" : ""}
+      onClick={() => setFilter("all")}
+      transition="background-color 0.61s ease, box-shadow 0.3s ease"
+      position="relative"
+      overflow="hidden"
+    >
+      All
+      <Box
+        position="absolute"
+        bottom="0"
+        left="0"
+        width="100%"
+        height="100%"
+        bg="#f3c1b4"
+        borderRadius="20px"
+        zIndex="-1"
+        transition="transform 0.61s ease"
+        transform={filter === "all" ? "translateX(0)" : "translateX(100%)"}
+      />
+    </Box>
+    <Box
+      as="button"
+      px={{ base: "2", sm: "3" }}
+      py={{ base: "0.5", sm: "1" }}
+      borderRadius="20px"
+      color="#8e6f6f"
+      fontWeight="semibold"
+      fontSize={{ base: "sm", sm: "md" }}
+      bg={filter === "movie" ? "#f3c1b4" : ""}
+      onClick={() => setFilter("movie")}
+      transition="background-color 0.61s ease, box-shadow 0.3s ease"
+      position="relative"
+      overflow="hidden"
+    >
+      Movies
+      <Box
+        position="absolute"
+        bottom="0"
+        left="0"
+        width="100%"
+        height="100%"
+        bg="#f3c1b4"
+        borderRadius="20px"
+        zIndex="-1"
+        transition="transform 0.61s ease"
+        transform={filter === "movie" ? "translateX(0)" : "translateX(100%)"}
+      />
+    </Box>
+    <Box
+      as="button"
+      px={{ base: "2", sm: "3" }}
+      py={{ base: "0.5", sm: "1" }}
+      borderRadius="20px"
+      color="#8e6f6f"
+      fontWeight="semibold"
+      fontSize={{ base: "sm", sm: "md" }}
+      bg={filter === "tv" ? "#f3c1b4" : ""}
+      onClick={() => setFilter("tv")}
+      transition="background-color 0.61s ease, box-shadow 0.3s ease"
+      position="relative"
+      overflow="hidden"
+    >
+      TV Shows
+      <Box
+        position="absolute"
+        bottom="0"
+        left="0"
+        width="100%"
+        height="100%"
+        bg="#f3c1b4"
+        borderRadius="20px"
+        zIndex="-1"
+        transition="transform 0.61s ease"
+        transform={filter === "tv" ? "translateX(0)" : "translateX(-100%)"}
+      />
+    </Box>
+  </Flex>
 
-      {/* Watchlist Count */}
-      {filteredWatchlist.length > 0 && (
-  <Box mb={1} mr={3}>
-    <Text color="#e56c68" fontSize={"small"} textAlign={"right"} fontWeight="semibold">
-      {getCountText()}
-    </Text>
-  </Box>
-)}
+  {/* Watchlist Count */}
+  {filteredWatchlist.length > 0 && (
+    <Box
+      position={{ base: "static", md: "absolute" }} 
+      right={{ base: "auto", md: "0" }} 
+      top={{ base: "auto", md: "50%" }} 
+      transform={{ base: "none", md: "translateY(-50%)" }}
+      pr={2} 
+    
+      display={{ base: "block", md: "block" }} 
+      textAlign={{ base: "left", md: "center" }} 
+       
+    >
+      <Text color="#f29b95" fontSize={{ base: "x-small", sm: "small" }}
+ fontWeight="semibold">
+        {getCountText()}
+      </Text>
+    </Box>
+  )}
+</Flex>
 
+ 
       {isLoading && (
         <Flex
           justify={"center"}
@@ -238,6 +255,7 @@ const Watchlist = () => {
         </Grid>
       )}
       <BackToTopButton />
+    
     </Container>
   );
 };

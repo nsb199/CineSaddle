@@ -62,7 +62,7 @@ CineSaddle is fully responsive and offers a seamless experience on mobile device
 |:----------------------:|:--------------------:|
 | ![CineSaddle Mobile Home Page](./screenshots/mobile-homepage.jpg) | ![CineSaddle Mobile Sidebar](./screenshots/mobile-sidebar.jpg) |
 | **📱 Mobile Watchlist Page** | **📱 Mobile Movie Details Page** |
-| ![CineSaddle Mobile Watchlist Page](./screenshots/mobile-watchlist.jpg) | ![CineSaddle Mobile Movie Details](./screenshots/mobile-movie-details.jpg) |
+| ![CineSaddle Mobile Watchlist Page](./screenshots/mobile-watchlist.png) | ![CineSaddle Mobile Movie Details](./screenshots/mobile-movie-details.jpg) |
 
 ## 🤝 Contributing
 
