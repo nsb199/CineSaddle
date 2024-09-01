@@ -25,6 +25,7 @@ import { useAuth } from "../context/useAuth";
 import { HamburgerIcon, Search2Icon } from "@chakra-ui/icons";
 import { useEffect } from "react";
 
+
 const Navbar = () => {
   const { user, signInWithGoogle, logout } = useAuth();
 
@@ -274,13 +275,13 @@ const Navbar = () => {
     borderRadius={"20px"}
     border={"1px solid #f6e9ca"}
     maxWidth={"61%"}
-    height={"auto"} // Adjust this as needed or use a specific height
-    maxHeight={"400px"} // Set a maximum height to control cropping
+    height={"auto"} 
+    maxHeight={"400px"} 
     mr={"7px"}
-    pt={"10px"} // Padding from the top
-    pb={"10px"} // Padding from the bottom
-    overflow={"auto"} // Handle overflowing content
-    marginTop={"20vh"} // Adjust this value as needed
+    pt={"10px"}
+    pb={"10px"} 
+    overflow={"auto"} 
+    marginTop={"20vh"}
   >
     <DrawerCloseButton fontSize={"md"} color={"#f6e9ca"} mt={"2"} mr={"1"} />
     <DrawerHeader>

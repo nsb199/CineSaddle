@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useFirestore } from "../services/firestore";
 import { useAuth } from "../context/useAuth";
-import { Container, Flex, Grid, Heading, Spinner, Box, Button } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
+import { Container, Flex, Grid, Heading, Spinner, Box, Button, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import WatchlistCard from "../components/WatchlistCard";
 import BackToTopButton from "../utils/backtotop";
 
@@ -12,8 +12,8 @@ const Watchlist = () => {
   const [watchlist, setWatchlist] = useState([]);
   const [filteredWatchlist, setFilteredWatchlist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState("all"); // 'all', 'movie', or 'tv'
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const [filter, setFilter] = useState("all");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user?.uid) {
@@ -39,10 +39,18 @@ const Watchlist = () => {
     }
   }, [filter, watchlist]);
 
-  const getEmptyMessage = () => {
-    if (filter === "movie") return "No Movies in Watchlist";
-    if (filter === "tv") return "No TV Shows in Watchlist";
-    return "Watchlist is Empty";
+  const getCountText = () => {
+    const movieCount = watchlist.filter(item => item.type === "movie").length;
+    const tvShowCount = watchlist.filter(item => item.type === "tv").length;
+
+    if (filter === "all") {
+      return `${movieCount} ${movieCount === 1 ? "movie" : "movies"} & ${tvShowCount} ${tvShowCount === 1 ? "TV show" : "TV shows"} in watchlist`;
+    } else if (filter === "movie") {
+      return `${movieCount} ${movieCount === 1 ? "movie" : "movies"} in watchlist`;
+    } else if (filter === "tv") {
+      return `${tvShowCount} ${tvShowCount === 1 ? "TV show" : "TV shows"} in watchlist`;
+    }
+    return "";
   };
 
   return (
@@ -161,6 +169,15 @@ const Watchlist = () => {
         </Flex>
       </Flex>
 
+      {/* Watchlist Count */}
+      {filteredWatchlist.length > 0 && (
+  <Box mb={1} mr={3}>
+    <Text color="#e56c68" fontSize={"small"} textAlign={"right"} fontWeight="semibold">
+      {getCountText()}
+    </Text>
+  </Box>
+)}
+
       {isLoading && (
         <Flex
           justify={"center"}
@@ -179,7 +196,7 @@ const Watchlist = () => {
           height={"100vh"}
         >
           <Heading as="h2" color={"#eb8c8b"} fontSize={"md"} textTransform={"uppercase"}>
-            {getEmptyMessage()}
+          UHH OHH !! nothing here...
           </Heading>
           <Button
             onClick={() => navigate('/search')}

@@ -109,11 +109,14 @@ export const useFirestore = () => {
     return data;
   }, []);
 
+
+
   return {
     addDocument,
     addToWatchlist,
     checkIfInWatchlist,
     removeFromWatchlist,
     getWatchlist,
+    
   };
 };
