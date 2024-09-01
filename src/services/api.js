@@ -101,5 +101,5 @@ export const fetchLatestTvShows = async () => {
 // WATCH PROVIDERS
 export const fetchWatchProviders = async (type, id) => {
     const res = await axios.get(`${baseUrl}/${type}/${id}/watch/providers?api_key=${apiKey}`);
-    return res?.data?.results?.US;
+    return res?.data?.results?.IN;
 };
