@@ -25,14 +25,13 @@ const Movies = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState("popularity.desc");
   const [isLoading, setIsLoading] = useState(true);
-  const cardsRef = useRef(null);
   const [animate, setAnimate] = useState(false);
+  const cardsRef = useRef(null);
 
   useEffect(() => {
     setIsLoading(true);
     fetchMovies(activePage, sortBy)
       .then((res) => {
-        console.log(res, "res");
         setMovies(res?.results);
         setActivePage(res?.page);
         setTotalPages(res?.total_pages);
@@ -40,6 +39,12 @@ const Movies = () => {
       .catch((err) => console.log(err, "err"))
       .finally(() => setIsLoading(false));
   }, [activePage, sortBy]);
+
+  useEffect(() => {
+    setAnimate(false);
+    const timer = setTimeout(() => setAnimate(true), 100);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   useEffect(() => {
     if (cardsRef.current) {
@@ -92,7 +97,6 @@ const Movies = () => {
             _expanded={{
               transform: "scale(1.05)",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
-             
             }}
             transition="all 0.5s ease"
           >
@@ -139,29 +143,33 @@ const Movies = () => {
         mb={"160px"}
         ref={cardsRef}
       >
-        {movies &&
-  movies.filter((item) => item.poster_path) // Filter out movies without posters
-    .map((item, i) =>
-      isLoading ? (
-        <Skeleton
-          height={{ base: "220px", md: "400px" }}
-          width={"100%"}
-          borderRadius={"20px"}
-          borderWidth={"1px"}
-          key={i}
-          startColor="#ef9c9d"
-          endColor="#f3c1b4"
-        />
-      ) : (
-        <Box
-          key={item?.id}
-          className={`card-wrapper ${animate ? "card-appear" : ""}`}
-        >
-          <CardComponent item={item} type={"movie"} />
-        </Box>
-      )
-    )}
-
+        {isLoading
+          ? Array.from({ length: 8 }).map((_, i) => (
+              <Box
+                key={i}
+                className={`skeleton-wrapper ${animate ? "skeleton-appear" : ""}`}
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <Skeleton
+                  height={{ base: "250px", md: "400px" }}
+                  width={"100%"}
+                  borderRadius={"20px"}
+                  borderWidth={"1px"}
+                  startColor="#ef9c9d"
+                  endColor="#f3c1b4"
+                />
+              </Box>
+            ))
+          : movies
+              .filter((item) => item.poster_path) // Filter out movies without posters
+              .map((item, i) => (
+                <Box
+                  key={item?.id}
+                  className={`card-wrapper ${animate ? "card-appear" : ""}`}
+                >
+                  <CardComponent item={item} type={"movie"} />
+                </Box>
+              ))}
       </Grid>
 
       {/* Pagination */}

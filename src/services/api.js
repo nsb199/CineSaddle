@@ -98,3 +98,8 @@ export const fetchLatestTvShows = async () => {
     return res?.data?.results;
 };
 
+// WATCH PROVIDERS
+export const fetchWatchProviders = async (type, id) => {
+    const res = await axios.get(`${baseUrl}/${type}/${id}/watch/providers?api_key=${apiKey}`);
+    return res?.data?.results?.IN;
+};

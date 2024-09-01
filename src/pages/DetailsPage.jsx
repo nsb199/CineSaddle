@@ -17,6 +17,7 @@ import {
   Image,
   Spinner,
   Text,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   fetchCredits,
@@ -26,11 +27,11 @@ import {
   imagePathOriginal,
   fetchMovieImages,
   fetchTvImages,
+  fetchWatchProviders,
 } from "../services/api";
 import {
   CalendarIcon,
   CheckCircleIcon,
-  ChevronUpIcon,
   SmallAddIcon,
   TimeIcon,
 } from "@chakra-ui/icons";
@@ -49,7 +50,8 @@ const DetailsPage = () => {
   const navigate = useNavigate();
 
   const { user } = useAuth();
-  const {addToWatchlist, checkIfInWatchlist, removeFromWatchlist } = useFirestore();
+  const { addToWatchlist, checkIfInWatchlist, removeFromWatchlist } =
+    useFirestore();
 
   const toast = useToast();
 
@@ -60,6 +62,8 @@ const DetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [backdrops, setBackdrops] = useState([]);
+  const [watchProviders, setWatchProviders] = useState(null);
+  const [credits, setCredits] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +72,7 @@ const DetailsPage = () => {
           fetchDetails(type, id),
           fetchCredits(type, id),
           fetchVideos(type, id),
+          
         ]);
 
         setDetails(detailsData);
@@ -92,6 +97,7 @@ const DetailsPage = () => {
         }
 
         setBackdrops((imagesData?.backdrops || []).slice(0, 25));
+       
       } catch (error) {
         console.log(error, "error");
       } finally {
@@ -111,8 +117,7 @@ const DetailsPage = () => {
         title: "Login to add to Watchlist",
         status: "error",
         isClosable: true,
-        duration:'2500',
-        
+        duration: "2500",
       });
     }
 
@@ -126,11 +131,10 @@ const DetailsPage = () => {
       overview: details?.overview,
     };
 
-      const dataId = details?.id?.toString();
+    const dataId = details?.id?.toString();
     await addToWatchlist(user?.uid, dataId, data);
     const isSetToWatchlist = await checkIfInWatchlist(user?.uid, dataId);
     setIsInWatchlist(isSetToWatchlist);
-
   };
 
   useEffect(() => {
@@ -139,17 +143,37 @@ const DetailsPage = () => {
       return;
     }
 
-    checkIfInWatchlist(user?.uid, id).then((data)=> {
+    checkIfInWatchlist(user?.uid, id).then((data) => {
       setIsInWatchlist(data);
-    })
+    });
   }, [id, user, checkIfInWatchlist]);
+
+
+  useEffect(() => {
+    const getData = async () => {
+        try {
+            const detailsData = await fetchDetails(type, id);
+            setDetails(detailsData);
+
+            const creditsData = await fetchCredits(type, id);
+            setCredits(creditsData);
+
+            const providersData = await fetchWatchProviders(type, id);
+            setWatchProviders(providersData);
+           
+        } catch (error) {
+            console.error("Failed to fetch details, credits, or watch providers", error);
+        }
+    };
+
+    getData();
+}, [type, id]);
 
   const handleRemoveFromwatchlist = async () => {
     await removeFromWatchlist(user?.uid, id);
     const isSetToWatchlist = await checkIfInWatchlist(user?.uid, id);
     setIsInWatchlist(isSetToWatchlist);
-  }
-  
+  };
 
   if (loading) {
     return (
@@ -164,7 +188,7 @@ const DetailsPage = () => {
     type === "tv" ? details?.first_air_date : details?.release_date;
 
   return (
-    <Box mx={{ base: "2", md: "4" }} >
+    <Box mx={{ base: "2", md: "4" }}>
       <Box
         background={`linear-gradient(rgba(0,0,0,.88), rgba(0,0,0,0.5)), url(${imagePathOriginal}/${details?.backdrop_path})`}
         backgroundRepeat={"no-repeat"}
@@ -180,16 +204,13 @@ const DetailsPage = () => {
         position={"relative"}
         border={"3px solid #e87c79"}
         borderRadius={"34px"}
-        overflow={"hidden"} 
-        
+        overflow={"hidden"}
       >
         <Container maxW={"container.xl"}>
           <Flex
             alignItems={"center"}
             gap={"10"}
-            
             flexDirection={{ base: "column", md: "row" }}
-            
           >
             <Image
               height={{ base: "300px", md: "400px", lg: "450px" }}
@@ -198,7 +219,7 @@ const DetailsPage = () => {
               border={"3px solid #f6e9ca"}
               boxShadow={"0 4px 8px rgba(246, 233, 202, 0.3)"}
             />
-            <Box  >
+            <Box>
               <Heading fontSize={"3xl"} color={"rgba(246, 233, 202, 1)"}>
                 {title}{" "}
                 <Text as={"span"} fontWeight={"normal"} color={"gray.400"}>
@@ -247,45 +268,48 @@ const DetailsPage = () => {
                   User Score
                 </Text>
                 {isInWatchlist ? (
-                   <Button
-                 
-                   leftIcon={<CheckCircleIcon />}
-                   backgroundColor="green"
-                   color="white"
-                   border={"2px solid #f6e9ca"}
-                   fontWeight="bold" 
-                   _hover={{
-                     backgroundColor: "#228B22", 
-                     transform: "scale(1.03)", 
-                   }}
-                   _active={{
-                     transform: "scale(1)", 
-                   }}
-                   onClick={handleRemoveFromwatchlist}
-                 >
-                   In Watchlist
-                 </Button>
+                  <Button
+                    leftIcon={<CheckCircleIcon />}
+                    backgroundColor="green"
+                    color="white"
+                    border={"2px solid #f6e9ca"}
+                    fontWeight="bold"
+                    _hover={{
+                      backgroundColor: "#228B22",
+                      transform: "scale(1.03)",
+                    }}
+                    _active={{
+                      transform: "scale(1)",
+                    }}
+                    onClick={handleRemoveFromwatchlist}
+                  >
+                    In Watchlist
+                  </Button>
                 ) : (
                   <Button
-                  leftIcon={<SmallAddIcon fontWeight={"bold"} fontSize={"2xl"} style={{ marginTop: '2px' }}  />}
-                  backgroundColor="#e87c79"
-                  color="white"
-                  border={"2px solid #f6e9ca"}
-                  fontWeight="bold" 
-                  _hover={{
-                    backgroundColor: "#e56c68", 
-                    transform: "scale(1.03)", 
-                  }}
-                  _active={{
-                    transform: "scale(1)", 
-                  }}
-                  onClick={handleSaveToWatchlist}
-                >
-                  Save to Watchlist
-                </Button>
+                    leftIcon={
+                      <SmallAddIcon
+                        fontWeight={"bold"}
+                        fontSize={"2xl"}
+                        style={{ marginTop: "2px" }}
+                      />
+                    }
+                    backgroundColor="#e87c79"
+                    color="white"
+                    border={"2px solid #f6e9ca"}
+                    fontWeight="bold"
+                    _hover={{
+                      backgroundColor: "#e56c68",
+                      transform: "scale(1.03)",
+                    }}
+                    _active={{
+                      transform: "scale(1)",
+                    }}
+                    onClick={handleSaveToWatchlist}
+                  >
+                    Save to Watchlist
+                  </Button>
                 )}
-               
-                
               </Flex>
               <Text
                 color={"gray.400"}
@@ -313,10 +337,69 @@ const DetailsPage = () => {
         </Container>
       </Box>
 
+       {/* Watch Now Section */}
+
+       <Container maxW="container.xl" pb="10" border="none" outline="none">
+  <Box mt="10">
+    <Heading
+      as="h2"
+      fontSize={{ base: "lg", md: "2xl" }}
+      textTransform={"uppercase"}
+      mt={"10"}
+      mb={"10"}
+      color={"#e56c68"}
+    >
+      Watch Now
+    </Heading>
+    {watchProviders?.flatrate?.length > 0 ? (
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing="7">
+        {watchProviders.flatrate.map((provider) => (
+          <a
+            key={provider.provider_id}
+            href={provider.watch_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none' }}
+          >
+            <Flex
+              alignItems="center"
+              p="4" 
+              gap="3"
+              borderRadius="20px"
+              boxShadow="md" 
+              _hover={{ boxShadow: "lg", transform: "scale(1.05)" }}
+              transition="all 0.2s"
+              cursor="pointer" 
+              flexDirection="column" 
+              align="center" 
+            >
+              <Image
+                src={`${imagePathOriginal}${provider.logo_path}`}
+                alt={provider.provider_name}
+                boxSize="43px"
+                border="1px solid white"
+                borderRadius="50%"
+              />
+              <Text color="#e56c68" fontWeight="bold" fontSize={["sm", "md"]}>
+                {provider.provider_name}
+              </Text>
+            </Flex>
+          </a>
+        ))}
+      </SimpleGrid>
+    ) : (
+      <Text fontSize="lg" fontWeight={"semibold"} color="#e56c68" textAlign="center" mt="4">
+        This content is not available for streaming.
+      </Text>
+    )}
+  </Box>
+</Container>
+
+
       <Container maxW={"container.xl"} pb="10" border="none" outline="none">
         <Heading
           as={"h2"}
-          fontSize={{ base: "lg", md: "2xl" }} 
+          fontSize={{ base: "lg", md: "2xl" }}
           textTransform={"uppercase"}
           mt={"10"}
           color={"#e56c68"}
@@ -324,71 +407,66 @@ const DetailsPage = () => {
           Cast
         </Heading>
         <Flex
-  mt="5"
-  mb="10"
-  pb={"2"}
-  overflowX={"scroll"}
-  gap={"5"}
-  className="custom-scrollbar"
-  border="none"
-  outline="none"
->
-  {cast?.length === 0 && <Text>No cast found</Text>}
-  {cast
-    ?.filter((item) => item?.profile_path)  // Filter out cast members without an image
-    ?.map((item) => (
-      <Flex
-      key={item?.id}
-      direction={"column"}
-      alignItems={"center"}
-      minW={{ base: "120px", md: "150px" }}
-      
-      
-      >
-        <Box
-          position={"relative"}
-          transform={"scale(1)"}
-          _hover={{
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
+          mt="5"
+          mb="10"
+          pb={"2"}
+          overflowX={"scroll"}
+          gap={"5"}
+          className="custom-scrollbar"
+          border="none"
+          outline="none"
+        >
+          {cast?.length === 0 && <Text>No cast found</Text>}
+          {cast
+            ?.filter((item) => item?.profile_path) // Filter out cast members without an image
+            ?.map((item) => (
+              <Flex
+                key={item?.id}
+                direction={"column"}
+                alignItems={"center"}
+                minW={{ base: "120px", md: "150px" }}
+              >
+                <Box
+                  position={"relative"}
+                  transform={"scale(1)"}
+                  _hover={{
+                    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
                     transform: "scale(1.01)",
                     transition: "box-shadow 0.3s ease, transform 0.3s ease",
-          }}
-          borderRadius="20px"
-          overflow="hidden"
-          boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
-          
-          
-        >
-          <Link
-            to={`/cast/${item?.id}`}
-            onClick={() => handleCastClick(item?.id)}
-          >
-            <Image
-              src={`${imagePath}/${item?.profile_path}`}
-              w={"100%"}
-              height={{ base: "180px", md: "225px" }}
-              objectFit={"cover"}
-              borderRadius={"20px"}
-            />
-          </Link>
-        </Box>
-        <Text
-          mt="4"
-          mb={"4"}
-          fontSize={{ base: "xs", md: "sm" }}
-          fontWeight={"bold"}
-          color="#e87c79"
-          textTransform={"uppercase"}
-        >
-          {item?.name}
-        </Text>
-      </Flex>
-    ))}
-</Flex>
-
+                  }}
+                  borderRadius="20px"
+                  overflow="hidden"
+                  boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
+                >
+                  <Link
+                    to={`/cast/${item?.id}`}
+                    onClick={() => handleCastClick(item?.id)}
+                  >
+                    <Image
+                      src={`${imagePath}/${item?.profile_path}`}
+                      w={"100%"}
+                      height={{ base: "180px", md: "225px" }}
+                      objectFit={"cover"}
+                      borderRadius={"20px"}
+                    />
+                  </Link>
+                </Box>
+                <Text
+                  mt="4"
+                  mb={"4"}
+                  fontSize={{ base: "xs", md: "sm" }}
+                  fontWeight={"bold"}
+                  color="#e87c79"
+                  textTransform={"uppercase"}
+                >
+                  {item?.name}
+                </Text>
+              </Flex>
+            ))}
+        </Flex>
         <Heading
           as={"h2"}
-          fontSize={{ base: "lg", md: "2xl" }} 
+          fontSize={{ base: "lg", md: "2xl" }}
           textTransform={"uppercase"}
           mt={"10"}
           mb={"5"}
@@ -406,11 +484,15 @@ const DetailsPage = () => {
         >
           {video &&
             videos?.map((item) => (
-              <Box key={item?.id} minW={{ base: "240px", md: "290px" }} mb={"4"} >
+              <Box
+                key={item?.id}
+                minW={{ base: "240px", md: "290px" }}
+                mb={"4"}
+              >
                 <VideoComponent id={item?.key} small />
                 <Text
                   color="#e87c79"
-                  fontSize={{ base: "xs", md: "sm" }} 
+                  fontSize={{ base: "xs", md: "sm" }}
                   noOfLines={"2"}
                   textTransform={"uppercase"}
                   mt="3"
