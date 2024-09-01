@@ -337,10 +337,10 @@ const DetailsPage = () => {
         </Container>
       </Box>
 
-       {/* Watch Now Section */}
+      <Container maxW={"container.xl"} pb="10" border="none" outline="none">
 
-       <Container maxW="container.xl" pb="10" border="none" outline="none">
-  <Box mt="10">
+
+      <Box mt="10" >
     <Heading
       as="h2"
       fontSize={{ base: "lg", md: "2xl" }}
@@ -349,10 +349,12 @@ const DetailsPage = () => {
       mb={"10"}
       color={"#e56c68"}
     >
-      Watch Now
+      Catch it on :
     </Heading>
     {watchProviders?.flatrate?.length > 0 ? (
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing="7">
+      <SimpleGrid  columns={{ base: 1, md: 2, lg: 4 }} spacing="7"
+      px={{ base: "9", md: "0" }}
+      >
         {watchProviders.flatrate.map((provider) => (
           <a
             key={provider.provider_id}
@@ -389,14 +391,12 @@ const DetailsPage = () => {
       </SimpleGrid>
     ) : (
       <Text fontSize="lg" fontWeight={"semibold"} color="#e56c68" textAlign="center" mt="4">
-        This content is not available for streaming.
+        This content is not available for streaming in your country.
       </Text>
     )}
   </Box>
-</Container>
 
 
-      <Container maxW={"container.xl"} pb="10" border="none" outline="none">
         <Heading
           as={"h2"}
           fontSize={{ base: "lg", md: "2xl" }}
@@ -464,6 +464,9 @@ const DetailsPage = () => {
               </Flex>
             ))}
         </Flex>
+
+       
+
         <Heading
           as={"h2"}
           fontSize={{ base: "lg", md: "2xl" }}
@@ -503,6 +506,9 @@ const DetailsPage = () => {
               </Box>
             ))}
         </Flex>
+
+
+
         <Heading
           as={"h2"}
           fontSize={{ base: "lg", md: "2xl" }}

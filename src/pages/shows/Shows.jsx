@@ -151,7 +151,7 @@ const Shows = () => {
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <Skeleton
-                  height={{ base: "250px", md: "400px" }}
+                  height={{ base: "235px", md: "400px" }}
                   width={"100%"}
                   borderRadius={"20px"}
                   borderWidth={"1px"}
