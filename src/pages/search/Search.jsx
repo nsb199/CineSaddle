@@ -35,23 +35,6 @@ const Search = () => {
   const noSpeechSound = useRef(new Audio('/sounds/no-speech-sound.mp3'));
 
   useEffect(() => {
-    // Retrieve saved search data from localStorage
-    const savedSearchTerm = localStorage.getItem('searchTerm');
-    const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
-    const savedActivePage = parseInt(localStorage.getItem('activePage'), 10);
-    const savedTotalPages = parseInt(localStorage.getItem('totalPages'), 10);
-
-    if (savedSearchTerm) {
-      setSearchValue(savedSearchTerm);
-      setTempSearchValue(savedSearchTerm);
-      setData(savedSearchResults || []);
-      setActivePage(savedActivePage || 1);
-      setTotalPages(savedTotalPages || 1);
-      setHasSearched(true);
-    }
-  }, []);
-
-  useEffect(() => {
     if (searchValue) {
       setIsLoading(true);
       searchData(searchValue, activePage)
@@ -60,12 +43,6 @@ const Search = () => {
           setData(filteredData);
           setActivePage(res?.page);
           setTotalPages(res?.total_pages);
-
-          // Save search results and term to localStorage
-          localStorage.setItem('searchTerm', searchValue);
-          localStorage.setItem('searchResults', JSON.stringify(filteredData));
-          localStorage.setItem('activePage', activePage);
-          localStorage.setItem('totalPages', totalPages);
         })
         .catch((err) => console.log(err, "err"))
         .finally(() => setIsLoading(false));
@@ -77,10 +54,6 @@ const Search = () => {
       setSearchValue("");
       setData([]);
       setHasSearched(false);
-      localStorage.removeItem('searchTerm');
-      localStorage.removeItem('searchResults');
-      localStorage.removeItem('activePage');
-      localStorage.removeItem('totalPages');
     }
   }, [tempSearchValue]);
 
