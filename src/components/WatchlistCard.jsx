@@ -59,7 +59,7 @@ const WatchlistCard = ({ type, item, setWatchlist }) => {
         bottom={"0"}
         left={"0"}
         width={"100%"}
-        height={"20%"}
+        height={{ base: "30%", sm: "20%" }}
         bg={"rgba(229, 108, 104, 1)"} // Background color for the overlay
         opacity={"0"}
         transition={"opacity 0.4s ease-in-out"}
@@ -78,6 +78,7 @@ const WatchlistCard = ({ type, item, setWatchlist }) => {
           fontSize={{ base: "xx-small", sm: "x-small", md: "small" }} 
           fontWeight={"semibold"}
           color={"green.200"}
+          display={{ base: "none", sm: "block" }}
         >
           {new Date(item?.release_date || item?.first_air_date).getFullYear() || "N/A"}
         </Text>
