@@ -177,6 +177,7 @@ const Movies = () => {
         activePage={activePage}
         totalPages={totalPages}
         setActivePage={setActivePage}
+        
       />
       <BackToTopButton />
     </Container>

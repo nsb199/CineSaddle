@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const PaginationComponent = ({ activePage, totalPages, setActivePage }) => {
   return (
-    <Flex gap={"2"} alignItems={"center"}>
+    <Flex mb={"50px"} gap={"2"} alignItems={"center"}>
  <Flex gap={"2"} maxW={"250px"} my={"10"}>
   <Button
     onClick={() => setActivePage(activePage - 1)}

@@ -64,7 +64,7 @@ const Watchlist = () => {
   };
 
   return (
-    <Container maxW={"container.xl"}>
+    <Container maxW={"container.xl"} mb={"106px"} >
       
       <Flex
         direction={{ base: "column", md: "row" }}
