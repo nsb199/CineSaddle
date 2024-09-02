@@ -209,7 +209,7 @@ const DetailsPage = () => {
         w={"100%"}
         h={{ base: "auto", md: "100vh" }}
         pt={"7"}
-        pb={"3"}
+        pb={"6"}
         px={{ base: "4", md: "8", lg: "12" }}
         justifyContent={"center"}
         display={"flex"}
