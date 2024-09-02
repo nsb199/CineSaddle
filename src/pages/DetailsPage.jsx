@@ -26,6 +26,7 @@ import {
   imagePath,
   imagePathOriginal,
   fetchMovieImages,
+  fetchSimilar,
   fetchTvImages,
   fetchWatchProviders,
 } from "../services/api";
@@ -64,6 +65,7 @@ const DetailsPage = () => {
   const [backdrops, setBackdrops] = useState([]);
   const [watchProviders, setWatchProviders] = useState(null);
   const [credits, setCredits] = useState(null);
+  const [similarItems, setSimilarItems] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +74,6 @@ const DetailsPage = () => {
           fetchDetails(type, id),
           fetchCredits(type, id),
           fetchVideos(type, id),
-          
         ]);
 
         setDetails(detailsData);
@@ -96,8 +97,18 @@ const DetailsPage = () => {
           imagesData = await fetchTvImages(id);
         }
 
-        setBackdrops((imagesData?.backdrops || []).slice(0, 25));
-       
+        setBackdrops((imagesData?.backdrops || []).slice(0, 20));
+
+        // Fetch similar items based on genres
+        const genreIds = detailsData.genres.map((genre) => genre.id);
+        if (genreIds.length > 0) {
+          const similar = await fetchSimilar(type, genreIds, 1);
+          // Optionally, filter out the current item if it's included
+          const filteredSimilar = similar.filter(
+            (item) => item.id.toString() !== id
+          );
+          setSimilarItems(filteredSimilar.slice(0, 10)); // Limit to 10 items
+        }
       } catch (error) {
         console.log(error, "error");
       } finally {
@@ -148,26 +159,27 @@ const DetailsPage = () => {
     });
   }, [id, user, checkIfInWatchlist]);
 
-
   useEffect(() => {
     const getData = async () => {
-        try {
-            const detailsData = await fetchDetails(type, id);
-            setDetails(detailsData);
+      try {
+        const detailsData = await fetchDetails(type, id);
+        setDetails(detailsData);
 
-            const creditsData = await fetchCredits(type, id);
-            setCredits(creditsData);
+        const creditsData = await fetchCredits(type, id);
+        setCredits(creditsData);
 
-            const providersData = await fetchWatchProviders(type, id);
-            setWatchProviders(providersData);
-           
-        } catch (error) {
-            console.error("Failed to fetch details, credits, or watch providers", error);
-        }
+        const providersData = await fetchWatchProviders(type, id);
+        setWatchProviders(providersData);
+      } catch (error) {
+        console.error(
+          "Failed to fetch details, credits, or watch providers",
+          error
+        );
+      }
     };
 
     getData();
-}, [type, id]);
+  }, [type, id]);
 
   const handleRemoveFromwatchlist = async () => {
     await removeFromWatchlist(user?.uid, id);
@@ -196,7 +208,8 @@ const DetailsPage = () => {
         backgroundPosition={"center"}
         w={"100%"}
         h={{ base: "auto", md: "100vh" }}
-        py={"7"}
+        pt={"7"}
+        pb={"3"}
         px={{ base: "4", md: "8", lg: "12" }}
         justifyContent={"center"}
         display={"flex"}
@@ -220,17 +233,29 @@ const DetailsPage = () => {
               boxShadow={"0 4px 8px rgba(246, 233, 202, 0.3)"}
             />
             <Box>
-              <Heading fontSize={"3xl"} color={"rgba(246, 233, 202, 1)"}>
+              <Heading
+                fontSize={{ base: "lg", md: "3xl" }}
+                textAlign={{ base: "center", md: "left" }}
+                color={"rgba(246, 233, 202, 1)"}
+              >
                 {title}{" "}
-                <Text as={"span"} fontWeight={"normal"} color={"gray.400"}>
-                  {new Date(releaseDate).getFullYear()}
-                </Text>
+                <Text
+                  as={"span"}
+                  fontWeight={"normal"}
+                  color={"gray.400"}
+                ></Text>
               </Heading>
 
-              <Flex alignItems={"center"} gap={"4"} mt={"1"} mb={"5"}>
+              <Flex
+                justifyContent={{ base: "center", md: "flex-start" }}
+                alignItems={"center"}
+                gap={"4"}
+                mt={"1"}
+                mb={"5"}
+              >
                 <Flex alignItems={"center"}>
                   <CalendarIcon mr={"2"} color={"gray.400"} />
-                  <Text fontSize={"sm"}>
+                  <Text fontSize={{ base: "xs", md: "sm" }}>
                     {new Date(releaseDate).toLocaleDateString("en-IN")} (US)
                   </Text>
                 </Flex>
@@ -239,7 +264,7 @@ const DetailsPage = () => {
                     <Box>*</Box>
                     <Flex alignItems={"center"}>
                       <TimeIcon mr="2" color={"gray.400"} />
-                      <Text fontSize={"sm"}>
+                      <Text fontSize={{ base: "xs", md: "sm" }}>
                         {minutesTohours(details?.runtime)}
                       </Text>
                     </Flex>
@@ -247,17 +272,21 @@ const DetailsPage = () => {
                 )}
               </Flex>
 
-              <Flex alignItems={"center"} gap={"4"}>
+              <Flex
+                justifyContent={{ base: "center", md: "flex-start" }}
+                alignItems={"center"}
+                gap={"4"}
+              >
                 <CircularProgress
                   value={ratingToPercentage(details?.vote_average)}
                   bg={"gray.800"}
                   borderRadius={"full"}
                   p={"0.5"}
-                  size={"70px"}
+                  size={{ base: "50px", md: "70px" }}
                   color={resolveRatingColor(details?.vote_average)}
                   thickness={"7px"}
                 >
-                  <CircularProgressLabel fontSize={"lg"}>
+                  <CircularProgressLabel fontSize={{ base: "sm", md: "lg" }}>
                     {ratingToPercentage(details?.vote_average)}{" "}
                     <Box as="span" fontSize={"10px"}>
                       %
@@ -268,36 +297,43 @@ const DetailsPage = () => {
                   User Score
                 </Text>
                 {isInWatchlist ? (
-                  <Button
-                    leftIcon={<CheckCircleIcon />}
-                    backgroundColor="green"
-                    color="white"
-                    border={"2px solid #f6e9ca"}
-                    fontWeight="bold"
-                    _hover={{
-                      backgroundColor: "#228B22",
-                      transform: "scale(1.03)",
-                    }}
-                    _active={{
-                      transform: "scale(1)",
-                    }}
-                    onClick={handleRemoveFromwatchlist}
-                  >
-                    In Watchlist
-                  </Button>
+                 <Button
+  leftIcon={<CheckCircleIcon />}
+  backgroundColor="green"
+  color="white"
+  border={"2px solid #f6e9ca"}
+  fontWeight="bold"
+  fontSize={{ base: "sm", md: "md" }} // Smaller font size for phones
+  px={{ base: "2", md: "4" }} // Smaller padding for phones
+  py={{ base: "1", md: "2" }} // Smaller padding for phones
+  _hover={{
+    backgroundColor: "#228B22",
+    transform: "scale(1.03)",
+  }}
+  _active={{
+    transform: "scale(1)",
+  }}
+  onClick={handleRemoveFromwatchlist}
+>
+  In Watchlist
+</Button>
+
                 ) : (
                   <Button
                     leftIcon={
                       <SmallAddIcon
                         fontWeight={"bold"}
-                        fontSize={"2xl"}
-                        style={{ marginTop: "2px" }}
+                        fontSize={{ base: "lg", md: "2xl" }}
+                        
                       />
                     }
                     backgroundColor="#e87c79"
                     color="white"
                     border={"2px solid #f6e9ca"}
                     fontWeight="bold"
+                    fontSize={{ base: "sm", md: "md" }}
+                    px={{ base: "2", md: "4" }}
+                    py={{ base: "1", md: "2" }}
                     _hover={{
                       backgroundColor: "#e56c68",
                       transform: "scale(1.03)",
@@ -314,33 +350,79 @@ const DetailsPage = () => {
               <Text
                 color={"gray.400"}
                 fontSize={"sm"}
+                textAlign={{ base: "center", md: "left" }}
                 fontStyle={"italic"}
                 my={"5"}
               >
                 {details?.tagline}
               </Text>
-              <Heading fontSize={"xl"} mb={"3"}>
+              <Heading
+                textAlign={{ base: "center", md: "left" }}
+                fontSize={{ base: "lg", md: "xl" }}
+                mb={"2"}
+              >
                 Overview
               </Heading>
-              <Text fontSize={"md"} mb={"3"}>
+              <Flex
+  mb={2}
+  gap="2"
+  justifyContent={{ base: "center", md: "flex-start" }}
+  flexWrap="wrap"
+>
+  {details?.genres?.map((genre) => (
+    <Badge
+      key={genre?.id}
+      p={{ base: "0.5", md: "1" }} // Smaller padding for phones
+      fontSize={{ base: "small", md: "sm" }} // Smaller font size for phones
+    >
+      {genre?.name}
+    </Badge>
+  ))}
+</Flex>
+
+
+              <Text
+                textAlign={{ base: "center", md: "left" }}
+                fontSize={{ base: "sm", md: "md" }}
+                mb={"3"}
+              >
                 {details?.overview}
               </Text>
-              <Flex mt="6" gap="2">
-                {details?.genres?.map((genre) => (
-                  <Badge key={genre?.id} p="1">
-                    {genre?.name}
-                  </Badge>
-                ))}
-              </Flex>
+
+              {/* Watch Providers Section */}
+              {watchProviders?.flatrate?.length > 0 && (
+                <Flex
+                  mt="6"
+                  gap="2"
+                  overflowX="auto"
+                  justifyContent={{ base: "center", md: "flex-start" }}
+                  px={{ base: "4", md: "0" }}
+                >
+                  {watchProviders.flatrate.map((provider) => (
+                    <a
+                      key={provider.provider_id}
+                      href={provider.watch_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Image
+                        src={`${imagePathOriginal}${provider.logo_path}`}
+                        alt={provider.provider_name}
+                        boxSize="40px" // Adjusted size
+                        borderRadius="50%"
+                      />
+                    </a>
+                  ))}
+                </Flex>
+              )}
             </Box>
           </Flex>
         </Container>
       </Box>
 
       <Container maxW={"container.xl"} pb="10" border="none" outline="none">
-
-
-      <Box mt="10" >
+        {/* <Box mt="10" >
     <Heading
       as="h2"
       fontSize={{ base: "lg", md: "2xl" }}
@@ -394,9 +476,7 @@ const DetailsPage = () => {
         This content is not available for streaming in your country.
       </Text>
     )}
-  </Box>
-
-
+  </Box> */}
         <Heading
           as={"h2"}
           fontSize={{ base: "lg", md: "2xl" }}
@@ -464,9 +544,6 @@ const DetailsPage = () => {
               </Flex>
             ))}
         </Flex>
-
-       
-
         <Heading
           as={"h2"}
           fontSize={{ base: "lg", md: "2xl" }}
@@ -475,9 +552,20 @@ const DetailsPage = () => {
           mb={"5"}
           color={"#e56c68"}
         >
-          Trailers & Videos
+          Official Trailer of {title}
         </Heading>
         <VideoComponent id={video?.key} />
+        {/* More in this category Section */}
+        <Heading
+          as={"h2"}
+          fontSize={{ base: "lg", md: "2xl" }}
+          textTransform={"uppercase"}
+          mt={"10"}
+          mb={"5"}
+          color={"#e56c68"}
+        >
+          You might also like
+        </Heading>
         <Flex
           mt="5"
           mb="10"
@@ -485,30 +573,55 @@ const DetailsPage = () => {
           gap={"5"}
           className="custom-scrollbar"
         >
-          {video &&
-            videos?.map((item) => (
+          {similarItems?.length === 0 && <Text>No similar items found.</Text>}
+          {similarItems?.map((item) => (
+            <Flex
+              key={item?.id}
+              direction={"column"}
+              alignItems={"center"}
+              minW={{ base: "120px", md: "150px" }}
+            >
               <Box
-                key={item?.id}
-                minW={{ base: "240px", md: "290px" }}
-                mb={"4"}
+                position={"relative"}
+                transform={"scale(1)"}
+                _hover={{
+                  boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
+                  transform: "scale(1.01)",
+                  transition: "box-shadow 0.3s ease, transform 0.3s ease",
+                }}
+                borderRadius="20px"
+                overflow="hidden"
+                boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
               >
-                <VideoComponent id={item?.key} small />
-                <Text
-                  color="#e87c79"
-                  fontSize={{ base: "xs", md: "sm" }}
-                  noOfLines={"2"}
-                  textTransform={"uppercase"}
-                  mt="3"
-                  fontWeight={"bold"}
-                >
-                  {item?.name}
-                </Text>
+                <Link to={`/${type}/${item?.id}`}>
+                  <Image
+                    src={
+                      item?.poster_path
+                        ? `${imagePath}/${item?.poster_path}`
+                        : "/placeholder.png" // Optional: Placeholder image
+                    }
+                    w={"100%"}
+                    height={{ base: "180px", md: "225px" }}
+                    objectFit={"cover"}
+                    borderRadius={"20px"}
+                    alt={item?.title || item?.name}
+                  />
+                </Link>
               </Box>
-            ))}
+              <Text
+                mt="4"
+                mb={"4"}
+                fontSize={{ base: "xs", md: "sm" }}
+                fontWeight={"bold"}
+                color="#e87c79"
+                textTransform={"uppercase"}
+                textAlign="center"
+              >
+                {item?.title || item?.name}
+              </Text>
+            </Flex>
+          ))}
         </Flex>
-
-
-
         <Heading
           as={"h2"}
           fontSize={{ base: "lg", md: "2xl" }}
@@ -517,7 +630,7 @@ const DetailsPage = () => {
           mb={"5"}
           color={"#e56c68"}
         >
-          Awesome Wallpapers from {title}
+          Wallpapers & Backdrops from {title}
         </Heading>
         {/* Backdrops  */}
         {backdrops.length === 0 ? (

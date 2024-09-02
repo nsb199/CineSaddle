@@ -103,3 +103,28 @@ export const fetchWatchProviders = async (type, id) => {
     const res = await axios.get(`${baseUrl}/${type}/${id}/watch/providers?api_key=${apiKey}`);
     return res?.data?.results?.IN;
 };
+
+
+// FETCH SIMILAR MOVIES OR TV SHOWS BY GENRE
+export const fetchSimilar = async (type, genreIds, page = 1) => {
+    try {
+      let url;
+      if (type === "movie") {
+        url = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=${genreIds.join(
+          ","
+        )}&page=${page}`;
+      } else if (type === "tv") {
+        url = `${baseUrl}/discover/tv?api_key=${apiKey}&with_genres=${genreIds.join(
+          ","
+        )}&page=${page}`;
+      } else {
+        throw new Error("Invalid type. Must be 'movie' or 'tv'.");
+      }
+  
+      const res = await axios.get(url);
+      return res?.data?.results;
+    } catch (error) {
+      console.error("Error fetching similar items:", error);
+      return [];
+    }
+  };

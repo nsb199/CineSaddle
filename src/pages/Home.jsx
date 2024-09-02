@@ -146,7 +146,7 @@ const Home = () => {
           ? Array.from({ length: 8 }).map((_, i) => (
               <Skeleton 
                 key={i} 
-                height={{ base: "235px", md: "400px" }} 
+                height={{ base: "225px", md: "400px" }} 
                 width={"100%"} 
                 borderRadius={"20px"} 
                 borderWidth={"1px"} 
