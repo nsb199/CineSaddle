@@ -37,7 +37,7 @@ const CardComponent = ({ item, type }) => {
   bottom={"0"}
   left={"0"}
   w={"100%"}
-  h={"25%"}
+  height={{ base: "30%", sm: "23%" }}
   bg={"rgba(229, 108, 104, 1)"}
   opacity={"0"}
   transition={"opacity 0.4s ease-in-out"}
@@ -45,7 +45,7 @@ const CardComponent = ({ item, type }) => {
   <Text
     color="#f6e9ca"
     fontWeight="bold"
-    fontSize={{ base: "sm", md: "lg" }}
+    fontSize={{ base: "x-small", md: "sm" }}
     textAlign={"center"}
   >
     {item?.title || item?.name}
@@ -68,14 +68,14 @@ const CardComponent = ({ item, type }) => {
     mt={"1"}
     display={{ base: "none", md: "flex" }}
   >
-    <StarIcon fontSize={"x-small"} color={"#f6e9ca"} />
+    {/* <StarIcon fontSize={"x-small"} color={"#f6e9ca"} />
     <Text
       fontSize={{ base: "xs", md: "small" }}
       fontWeight={"semibold"}
       color={"#f6e9ca"}
     >
       {item?.vote_average?.toFixed(1)}
-    </Text>
+    </Text> */}
   </Flex>
 </Box>
 
