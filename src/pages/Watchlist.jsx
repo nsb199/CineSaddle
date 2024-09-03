@@ -252,18 +252,20 @@ const Watchlist = () => {
           gap={"7"}
           ref={gridRef}
         >
-          {filteredWatchlist?.map((item) => (
-            <Box
-              key={item?.id}
-              className={`card-wrapper ${animate ? "animate" : ""}`}
-            >
-              <WatchlistCard
-                item={item}
-                type={item?.type}
-                setWatchlist={setWatchlist}
-              />
-            </Box>
-          ))}
+          {filteredWatchlist?.map((item, index) => (
+  <Box
+    key={item?.id}
+    className={`card-wrapper ${animate ? "animate" : ""}`}
+    style={{ animationDelay: `${index * 0.1}s` }} // Add delay based on index
+  >
+    <WatchlistCard
+      item={item}
+      type={item?.type}
+      setWatchlist={setWatchlist}
+    />
+  </Box>
+))}
+
         </Grid>
       )}
 
