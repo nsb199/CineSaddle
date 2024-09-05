@@ -226,7 +226,7 @@ const Home = () => {
             </Link>
           </Flex>
           <Text fontSize="sm" color={"#e87c79"} fontWeight={"bold"}>
-            &copy; 2024 CineSaddle. Curated with love by{" "}
+            &copy; 2024 CineSaddle. <br /> Curated with love by{" "}
             <Link href="https://www.linkedin.com/in/neerajsingh19/" isExternal color="blue.400">
               Neeraj Singh
             </Link>
