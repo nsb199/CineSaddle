@@ -64,6 +64,10 @@ const Search = () => {
     setHasSearched(true);
   };
 
+  const handleClearSearch = () => {
+    setTempSearchValue("");
+  };
+
   useEffect(() => {
     if (cardsRef.current) {
       const children = Array.from(cardsRef.current.children);
@@ -130,76 +134,102 @@ const Search = () => {
         </Heading>
       </Flex>
 
-      <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center" }}>
-        <Flex
-          alignItems="center"
-          bg="#f6e9ca"
-          borderRadius="50px"
-          border="2px solid"
-          borderColor="#e56c68"
-          w="100%"
-          p={"1"}
-          pr={"1"}
-        >
-          
-          <Input
-            placeholder="Search Movies, TV Show..."
-            value={tempSearchValue}
-            onChange={(e) => setTempSearchValue(e.target.value)}
-            bg="#f6e9ca"
-            color="#e56c68"
-            border="none"
-            borderRadius="10px 0 0 10px"
-            _placeholder={{ color: "#e56c68" }}
-            _focus={{
-              boxShadow: "none",
-            }}
-          />
-          <IconButton
-            icon={<Search2Icon  />}
-            onClick={handleSearch}
-            aria-label="Search"
-            color="#e56c68"
-            bg="transparent"
-            borderRadius="50%"
-            
-            
-            _hover={{ 
-              bg: "#e56c68",
-              color: "#f6e9ca"
-            }}
-            _active={{ 
-              bg: "#d14e4a",
-              color: "#f6e9ca"
-            }}
-            transition="background-color 0.3s ease, color 0.3s ease"
-            
-          />
-          
-        </Flex>
-        <IconButton
-            icon={<FaMicrophone size={"18px"}  />}
-            onClick={handleVoiceSearch}
-            aria-label="Voice Search"
-            color={isListening ? "#f6e9ca" : "#e56c68"}
-            bg={isListening ? "#e56c68" : "#transparent"}
-            borderRadius="50%"
-            border="2px solid #e56c68"
-            size="lg"
-            _hover={{ 
-              bg: "#e56c68",
-              color: "#f6e9ca"
-            }}
-            _active={{ 
-              bg: isListening ? "#d14e4a" : "#e56c68",
-              color: "#f6e9ca"
-            }}
-            transition="background-color 0.3s ease, color 0.3s ease"
-            className={isListening ? "pulsing-wobbling" : ""}
-            ml={2}
-          />
+     <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center", position: 'relative' }}>
+  {/* Clear Button */}
+  {tempSearchValue && (
+    <button
+      type="button"
+      onClick={handleClearSearch}
+      style={{
+        position: 'absolute',
+        top: '-57px', 
+        left: '92px', 
+        background: '#e56c68',
+        color: '#f6e9ca',
+        border: 'none',
+        borderRadius: '5px',
+        padding: '5px 10px',
+        cursor: 'pointer',
+        fontSize: '15px',
+        fontWeight: 'bold',
+        transition: 'background-color 0.3s ease',
+        zIndex: 1, 
+      }}
+      onMouseEnter={(e) => e.currentTarget.style.background = '#d14e4a'}
+      onMouseLeave={(e) => e.currentTarget.style.background = '#e56c68'}
+    >
+      CLEAR
+    </button>
+  )}
 
-      </form>
+  {/* Search Bar */}
+  <Flex
+    alignItems="center"
+    bg="#f6e9ca"
+    borderRadius="50px"
+    border="2px solid"
+    borderColor="#e56c68"
+    w="100%"
+    p={"1"}
+    pr={"1"}
+    position="relative" // Ensure the Clear button positions correctly relative to this
+  >
+    <Input
+      placeholder="Search Movies, TV Show..."
+      value={tempSearchValue}
+      onChange={(e) => setTempSearchValue(e.target.value)}
+      bg="#f6e9ca"
+      color="#e56c68"
+      border="none"
+      borderRadius="10px 0 0 10px"
+      _placeholder={{ color: "#e56c68" }}
+      _focus={{
+        boxShadow: "none",
+      }}
+    />
+    <IconButton
+      icon={<Search2Icon />}
+      onClick={handleSearch}
+      aria-label="Search"
+      color="#e56c68"
+      bg="transparent"
+      borderRadius="50%"
+      _hover={{
+        bg: "#e56c68",
+        color: "#f6e9ca"
+      }}
+      _active={{
+        bg: "#d14e4a",
+        color: "#f6e9ca"
+      }}
+      transition="background-color 0.3s ease, color 0.3s ease"
+    />
+  </Flex>
+
+  {/* Voice Search Button */}
+  <IconButton
+    icon={<FaMicrophone size={"18px"} />}
+    onClick={handleVoiceSearch}
+    aria-label="Voice Search"
+    color={isListening ? "#f6e9ca" : "#e56c68"}
+    bg={isListening ? "#e56c68" : "#transparent"}
+    borderRadius="50%"
+    border="2px solid #e56c68"
+    size="lg"
+    _hover={{
+      bg: "#e56c68",
+      color: "#f6e9ca"
+    }}
+    _active={{
+      bg: isListening ? "#d14e4a" : "#e56c68",
+      color: "#f6e9ca"
+    }}
+    transition="background-color 0.3s ease, color 0.3s ease"
+    className={isListening ? "pulsing-wobbling" : ""}
+    ml={2}
+  />
+</form>
+
 
       {isLoading && (
         <Flex justifyContent={"center"} mt={"10"}>
